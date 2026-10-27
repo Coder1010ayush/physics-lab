@@ -282,7 +282,7 @@ export default function ProjectilePage() {
             title="Velocity components"
             series={[
               { label: 'vx (m/s)', color: 'var(--vec-velocity)', data: snap.vxSeries },
-              { label: 'vy (m/s)', color: 'var(--vec-friction)', data: snap.vySeries },
+              { label: 'vy (m/s)', color: 'var(--vec-velocity)', data: snap.vySeries, dashed: true },
             ]}
             xLabel="t (s)"
             yLabel="v (m/s)"

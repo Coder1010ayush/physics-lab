@@ -149,3 +149,11 @@ Build ✓ lint 0/0, 73/73 tests. Live production font check via puppeteer docume
 
 ### Status
 Validated
+
+## UI Sprint 1 — Projector mode + wrap strips + semantic velocity color
+
+- Added global Projector toggle in top bar (persisted in localStorage) applying `data-ui='projector'`.
+- Projector mode scales UI 1.2×.
+- FormulaBar wraps in projector mode (no horizontal scroll).
+- Projectile velocity-components graph uses velocity color for both vx/vy; vy is dashed.
+- Tuned light-mode `--vec-*` tokens for projector contrast.

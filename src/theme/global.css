@@ -16,6 +16,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+:root[data-ui='projector'] {
+  font-size: 120%;
+}
+
+
 h1, h2, h3 {
   line-height: 1.15;
   letter-spacing: -0.02em;

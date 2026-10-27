@@ -21,12 +21,12 @@
   --ultramarine-wash: rgba(43, 63, 168, 0.08);
 
   /* semantic quantity colors (data encoding, ≥4.5:1 on chalk-lift) */
-  --vec-velocity: #0E7490;
-  --vec-acceleration: #C2410C;
-  --vec-force: #B91C1C;
-  --vec-friction: #7C3AED;
-  --vec-tension: #15803D;
-  --vec-structural: #6B675C;
+  --vec-velocity: #075985;
+  --vec-acceleration: #9A3412;
+  --vec-force: #991B1B;
+  --vec-friction: #6D28D9;
+  --vec-tension: #166534;
+  --vec-structural: #5A564D;
 
   /* states */
   --ok: #15803D;

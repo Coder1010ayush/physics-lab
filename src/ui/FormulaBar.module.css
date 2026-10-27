@@ -13,6 +13,12 @@
   padding-block: 2px;
 }
 
+:global([data-ui='projector']) .row {
+  flex-wrap: wrap;
+  overflow-x: visible;
+}
+
+
 .chip {
   background: var(--chalk-sunk);
   border-radius: var(--r-sm);

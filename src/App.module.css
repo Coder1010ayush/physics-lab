@@ -11,7 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  min-height: 60px;
+  padding-block: 0.35rem;
   gap: var(--s-4);
 }
 
@@ -34,6 +35,52 @@
 .logoNucleus {
   fill: var(--ultramarine);
 }
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.projectorBtn,
+ .projectorActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.7rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--ink-hair);
+  background: var(--chalk-lift);
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: 700 0.82rem var(--font-ui);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background-color 120ms var(--ease-micro), color 120ms var(--ease-micro), transform 120ms var(--ease-micro);
+}
+
+.projectorBtn:hover {
+  background: var(--chalk-sunk);
+  color: var(--ink);
+}
+
+.projectorBtn:active,
+ .projectorActive:active {
+  transform: translateY(1px);
+}
+
+.projectorActive {
+  background: var(--ultramarine-wash);
+  color: var(--ultramarine);
+  border-color: rgba(43, 63, 168, 0.22);
+}
+
+.projectorBtn:focus-visible,
+ .projectorActive:focus-visible {
+  outline: 2px solid var(--ultramarine);
+  outline-offset: 2px;
+}
+
+
 
 .links {
   display: flex;
@@ -74,5 +121,5 @@
 
 @media (max-width: 480px) {
   .links a { padding: var(--s-2); }
-  .nav { height: 56px; }
+  .nav { min-height: 56px; }
 }
