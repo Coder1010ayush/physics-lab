@@ -1,6 +1,6 @@
 # Physics Lab — Complete Idea & Plan (v1.0)
 
-**Prepared:** 2026-10-27 · **Last updated:** 2026-10-27 · **Status:** Phase 1 complete — all four MVP sims live
+**Prepared:** 2026-10-27 · **Last updated:** 2026-10-27 · **Status:** Phase 2 underway — circular motion lab live (all three modes)
 
 ## 1. The Idea
 
@@ -159,7 +159,13 @@ See `.kiwi/Tasks.py` for the task tree with IDs. Summary:
   tension, FBDs on every mass (verified: Atwood (3,2) → a = 1.96 m/s²,
   T = 23.52 N on screen; table-edge static hold and breakaway with both
   tension equations agreeing). **Phase 1 complete.**
-- Quality infrastructure: 84 physics tests; 22-check real-browser
+- P2-2 Circular Motion Lab (user chose ALL THREE modes): ball on a string
+  with tangent+radial arrows and sinusoid graphs; loop-the-loop with
+  energy-conserving variable speed, √(gr)/√(5gr) min-speed chips, and
+  real free-fall when too slow (verified: v₀=8 full loop, v₀=7 boundary
+  with min N ≈ 0, v₀=5 lost contact); frictionless banked curve with
+  'perfectly banked' state at v_opt = √(rg·tanθ).
+- Quality infrastructure: 115 physics tests; 29-check real-browser
   click-test (runs against localhost AND production); fix for the 1-ulp
   graph crash found by the first real user click; CTA hover contrast fix.
 - Font swap: JetBrains Mono (self-hosted Fontsource) is the instrument font

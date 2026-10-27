@@ -223,3 +223,23 @@ The last of the three teacher-must-have MVP sims: the Atwood machine with live t
 
 ### Status
 Validated
+
+## Subtask: P2-2 Circular Motion Lab — UCM + loop-the-loop + banked curve (completed)
+
+### Subtask relevance
+First Phase 2 sim, in the user-locked conceptual-chain order (user chose ALL THREE modes over the recommended two). Covers the Class-12 circular-motion chapter: the centripetal concept, the loop-the-loop exam archetype with min-speed conditions, and the banked-curve formula. Built by subagent; physics reviewed line-by-line; wiring, click-tests and deployment by me.
+
+### Implementation
+- src/engine/circular.ts — 12 closed forms: UCM quartet (v=ωr, a_c=ω²r, F_c=mω²r, T=2π/ω), loop trio (h=r(1−cosθ), v²=v₀²−2gh, N=m(v²/r+g·cosθ)), min speeds (√(gr), √(5gr)), banked trio (v_opt=√(rg·tanθ), N=mg/cosθ, available=mg·tanθ). Epsilon guard on cosθ (cos(π/2)≈6e-17 never triggers ≤0).
+- src/sims/circular.ts — CircularSim, three modes; nested per-mode params (r defaults collide: 1.5/1/50 m). uniform: φ += ωdt exact, 3-turn auto-done. loop: 1-DOF semi-implicit Euler along track (α=−g·sinθ/r), contact check N<0 only in upper half, leave → projectile free fall (tangent launch) → lands; θ≥2π 'full loop'; rollback oscillates to cap; interim chip 'climbing the loop'. banked: constant-speed circulation, live required vs available with 1% perfect window.
+- src/pages/CircularPage.tsx + css — three-button mode toggle, mode-conditional sliders, Earth/Moon, per-mode graphs (vx/vy sinusoids; v & N; required vs available), live FormulaBar, three inline-SVG stages (string ball with tangent+radial arrows; loop ring with height ruler + analytic free-fall parabola; banked cross-section + plan-view ring).
+- Wiring: route /sim/circular + import, library card → live, topics.ts simPath, home note 'Five labs are live'.
+
+### Validation
+- 115/115 unit tests (31 new). Engine values pinned: N_top=15.0/N_bottom=73.8 at v₀=8 r=1; v₀,min=7.0 exactly; boundary case v₀=7 → full loop with min N=0.003 N ≈ 0 (textbook). Build clean; lint 0/0.
+- click-test.mjs extended to 29 checks (+7 circular): real Chrome proves UCM v=3.00/a_c=6.00/F_c=12.00 on screen; loop v₀=8 completes with chips √(gr)=3.13 & √(5gr)=7.00; v₀=5 loses contact; banked default perfectly banked (v=16.8 vs v_opt=16.82); v=25 → friction-must-supply chip; zero console errors. 29/29 localhost + production.
+- Subagent caught two spec literals I had wrong in the 3rd decimal (v_opt=16.8197 not 16.817; available=11.3161 not 11.315) and asserted exact closed forms instead.
+- My click-test regex bug repeated the pulley lesson: m/s with \b fails on glued textContent ('3.00m/saccel'); fixed by dropping \b.
+
+### Status
+Validated

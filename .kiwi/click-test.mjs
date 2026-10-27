@@ -328,6 +328,134 @@ try {
     await page.close();
   }
 
+  /* ── Circular motion page — centripetal physics ── */
+  {
+    const page = await browser.newPage();
+    const logs = [];
+    page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
+    page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
+    await page.goto(`${BASE}/#/sim/circular`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.body.textContent.includes('Ball on a string'));
+
+    const loaded = await readState(page);
+    report(
+      'circular loads with Start button',
+      loaded.buttons.some((b) => b.includes('Start')),
+      `t = ${loaded.t}`,
+    );
+
+    // UCM defaults r = 1.5, ω = 2, m = 2 → v = 3.00 m/s, a_c = 6.00 m/s², F_c = 12.00 N.
+    await clickButton(page, 'Start');
+    await sleep(1000);
+    const ucm = await page.evaluate(() => {
+      const text = document.body.textContent;
+      const mps = [...text.matchAll(/(-?[\d.]+)\s*m\/s/g)].map((m) => parseFloat(m[1]));
+      const acc = [...text.matchAll(/(-?[\d.]+)\s*m\/s²/g)].map((m) => parseFloat(m[1]));
+      const newt = [...text.matchAll(/(-?[\d.]+)\s*N/g)].map((m) => parseFloat(m[1]));
+      return {
+        v: mps.some((x) => Math.abs(x - 3.0) < 0.005),
+        aC: acc.some((x) => Math.abs(x - 6.0) < 0.005),
+        fC: newt.some((x) => Math.abs(x - 12.0) < 0.005),
+      };
+    });
+    report(
+      'uniform (r 1.5, ω 2, m 2) shows v = 3.00, a_c = 6.00, F_c = 12.00',
+      ucm.v && ucm.aC && ucm.fC,
+      `v ✓ ${ucm.v}, a_c ✓ ${ucm.aC}, F_c ✓ ${ucm.fC}`,
+    );
+
+    // LOOP-THE-LOOP defaults v₀ = 8, r = 1 → full loop; min chips √(gr)=3.13, √(5gr)=7.00.
+    await clickButton(page, 'Loop-the-loop');
+    await sleep(300);
+    await clickButton(page, 'Start');
+    const fullLoop = await page
+      .waitForFunction(
+        () =>
+          [...document.querySelectorAll('*')].some(
+            (el) => el.children.length === 0 && el.textContent.trim() === 'full loop',
+          ),
+        { timeout: 8000 },
+      )
+      .then(() => true)
+      .catch(() => false);
+    const loopChips = await page.evaluate(() => {
+      const text = document.body.textContent;
+      return {
+        minTop: /3\.13/.test(text),
+        minLaunch: /7\.00/.test(text),
+      };
+    });
+    report(
+      'loop-the-loop (v₀ 8) completes — full loop, min chips √(gr) = 3.13 and √(5gr) = 7.00',
+      fullLoop && loopChips.minTop && loopChips.minLaunch,
+      `chip 'full loop': ${fullLoop}, chips ✓ ${loopChips.minTop}, ${loopChips.minLaunch}`,
+    );
+
+    // LOOP too slow: v₀ = 5 < √(5gr) = 7 → loses contact, ball lands.
+    await page.evaluate(() => {
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const v0 = inputs[1];
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      setter.call(v0, '5');
+      v0.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await sleep(250);
+    await clickButton(page, 'Start');
+    const lost = await page
+      .waitForFunction(
+        () =>
+          [...document.querySelectorAll('*')].some(
+            (el) => el.children.length === 0 && el.textContent.trim().startsWith('lost contact'),
+          ),
+        { timeout: 8000 },
+      )
+      .then(() => true)
+      .catch(() => false);
+    report('loop-the-loop (v₀ 5 < 7) loses contact before the top', lost, 'status chip: lost contact at θ');
+
+    // BANKED defaults r = 50, θ = 30°, v = 16.8 ≈ v_opt = 16.82 → perfectly banked.
+    await clickButton(page, 'Banked curve');
+    await sleep(300);
+    const perfect = await page.evaluate(() =>
+      [...document.querySelectorAll('*')].some(
+        (el) => el.children.length === 0 && el.textContent.trim() === 'perfectly banked',
+      ),
+    );
+    report(
+      'banked (r 50, θ 30°, v 16.8 ≈ v_opt 16.82) — perfectly banked',
+      perfect,
+      perfect ? 'chip present' : 'chip missing',
+    );
+
+    // BANKED too fast: v = 25 → chip demands friction Δ = m(v²/r − g·tanθ) ≈ 12.5 N.
+    await page.evaluate(() => {
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const v = inputs[2];
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      setter.call(v, '25');
+      v.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await sleep(250);
+    const needsFriction = await page.evaluate(() =>
+      [...document.querySelectorAll('*')].some(
+        (el) => el.children.length === 0 && el.textContent.trim().includes('friction must supply'),
+      ),
+    );
+    report(
+      'banked at v = 25 (off design) — friction must supply Δ ≈ 12.5 N',
+      needsFriction,
+      needsFriction ? 'chip present' : 'chip missing',
+    );
+
+    const cerrs = logs.filter((l) => l.startsWith('[error]') || l.startsWith('[pageerror]'));
+    report(
+      'circular no console/page errors',
+      cerrs.length === 0,
+      cerrs.join(' ; ') || 'clean',
+    );
+    await page.close();
+  }
+
   /* ── Playground page ── */
   {
     const page = await browser.newPage();

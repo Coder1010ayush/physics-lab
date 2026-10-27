@@ -26,7 +26,7 @@ TASKS = [
 
     # ---- Phase 2: remaining topics ----
     {"id": "P2-1", "title": "2D motion / vector playground", "status": "todo"},
-    {"id": "P2-2", "title": "Circular motion", "status": "todo"},
+    {"id": "P2-2", "title": "Circular motion", "status": "done"},
     {"id": "P2-3", "title": "Torque", "status": "todo"},
     {"id": "P2-4", "title": "Rotational motion", "status": "todo"},
     {"id": "P2-5", "title": "Work-energy-power (roller coaster track)", "status": "todo"},

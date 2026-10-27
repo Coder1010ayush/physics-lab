@@ -43,7 +43,7 @@ const TOPICS: Topic[] = [
     id: 'circular',
     title: 'Circular Motion',
     desc: 'Uniform circular motion, centripetal force and banking.',
-    status: 'soon',
+    status: 'live',
     icon: <IconCircular />,
   },
   {
@@ -138,7 +138,7 @@ export default function HomePage() {
       <section id="topics" className={classes.library}>
         <h2>The simulation library</h2>
         <p className={classes.libraryNote}>
-          All four MVP labs are live — Kinematics, Projectile, Friction and Pulley.
+          Five labs are live — Kinematics, Projectile, Friction, Pulley and Circular Motion.
           Open any card for definitions, concepts and formulas.
         </p>
         <div className={classes.grid}>

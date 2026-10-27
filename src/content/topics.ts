@@ -159,6 +159,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     ],
     explanation:
       'Why inward? Velocity is a vector, so even at constant speed, turning the arrow changes it. The change between two nearby instants points toward the centre — and that is exactly where the acceleration, and hence the net force, must point.\n\nOn real tracks the supplier changes: friction between tyre and road turns a car, gravity turns a satellite, tension turns a stone on a string. The same three formulas cover every case — only the name of the inward force changes.',
+    simPath: '/sim/circular',
   },
 
   /* ── torque ─────────────────────────────────────────────────────────── */
