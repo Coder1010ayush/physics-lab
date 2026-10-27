@@ -170,3 +170,9 @@ Validated
 - Dark theme defaults ON for first-time visitors (no saved preference); projector mode still forces Light.
 - Tuned global type scale tokens (`--step-*`) for better hierarchy.
 - Tweaked global caption typography for readability.
+
+## UI Sprint 4 — Narrower measure (65ch) + centered topic layout
+
+- Introduced `--measure: 65ch` token and applied it to paragraph max-width.
+- Reduced global `.container` max width to 980px.
+- TopicDetailPage now centers the reading column (`.pageHead`, `.sections` constrained to `max-width: var(--measure)` with `margin-inline: auto`).

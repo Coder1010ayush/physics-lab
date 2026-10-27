@@ -8,6 +8,8 @@
   display: grid;
   gap: var(--s-4);
   padding-block: var(--s-6) var(--s-5);
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
 .pageHead h1 {
@@ -30,7 +32,7 @@
   font-size: var(--step-1);
   color: var(--ink-soft);
   line-height: 1.5;
-  max-width: 46ch;
+  max-width: 100%;
 }
 
 .sections {
@@ -38,6 +40,8 @@
   gap: var(--s-6);
   padding-block: var(--s-5) var(--s-7);
   border-top: 1px solid var(--ink-hair);
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
 .card {
@@ -54,7 +58,7 @@
 /* definition — hero statement, textbook voice */
 
 .definition {
-  max-width: 62ch;
+  max-width: 100%;
 }
 
 .definition > h2 {
@@ -69,7 +73,7 @@
   font-size: 1.3rem;
   line-height: 1.62;
   color: var(--ink);
-  max-width: 42ch;
+  max-width: 100%;
 }
 
 /* key concepts — numbered board notes */
@@ -80,7 +84,7 @@
   padding: 0;
   display: grid;
   gap: var(--s-3);
-  max-width: 70ch;
+  max-width: 100%;
 }
 
 .concepts li {
@@ -138,14 +142,14 @@
   font-size: 1.12rem;
   line-height: 1.7;
   color: var(--ink);
-  max-width: 70ch;
+  max-width: 100%;
 }
 
 .prose {
   margin: 0;
   font-size: 1.05rem;
   line-height: 1.65;
-  max-width: 70ch;
+  max-width: 100%;
 }
 
 .prose + .prose {
@@ -173,7 +177,7 @@
 .payoffText {
   margin: 0;
   color: var(--ink-soft);
-  max-width: 52ch;
+  max-width: 100%;
   font-size: 1rem;
   line-height: 1.6;
 }

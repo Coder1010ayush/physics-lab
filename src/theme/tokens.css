@@ -69,6 +69,9 @@
 
   /* graph paper (signature atmosphere) */
   --grid-line: rgba(26, 25, 21, 0.055);
+
+  /* reading measure (comfortable paragraph width) */
+  --measure: 65ch;
 }
 
 

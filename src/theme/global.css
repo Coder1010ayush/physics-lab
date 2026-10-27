@@ -30,7 +30,7 @@ h1, h2, h3 {
 h1 { font-size: var(--step-3); }
 h2 { font-size: var(--step-2); }
 h3 { font-size: var(--step-1); }
-p { text-wrap: pretty; max-width: 70ch; }
+p { text-wrap: pretty; max-width: var(--measure, 65ch); }
 
 /* Plain text links get the accent; anything styled as a button (.btn)
    keeps its own color logic — otherwise a:hover (0,1,1) beats .btnPrimary
@@ -46,7 +46,7 @@ a:not(.btn):hover { color: var(--ultramarine-deep); }
 /* one container, one left edge */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 980px;
   margin-inline: auto;
   padding-inline: clamp(1rem, 4vw, 3rem);
 }
