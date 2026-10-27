@@ -34,7 +34,8 @@ physics-lab/
     theme/               design tokens (Chalk & Ultramarine): tokens.css, global.css
     content/             topics.ts: TOPIC_CONTENT — per-topic definition, concepts, textbook formulas
     pages/               HomePage (library), TopicDetailPage (classroom content),
-                         PlaygroundPage (kit demo), ProjectilePage (2D motion sim)
+                         PlaygroundPage (kit demo), ProjectilePage (2D motion),
+                         KinematicsPage (1D motion, /sim/kinematics)
   .kiwi/                project memory: Tasks.py, Completed.py, decisions.md
   PLAN.md               full project plan
 ```

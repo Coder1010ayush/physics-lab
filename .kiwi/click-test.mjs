@@ -113,6 +113,54 @@ try {
     await page.close();
   }
 
+  /* ── Kinematics page — braking scenario verifies the turning-point physics ── */
+  {
+    const page = await browser.newPage();
+    const logs = [];
+    page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
+    page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
+    await page.goto(`${BASE}/#/sim/kinematics`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.body.textContent.includes('Initial speed'));
+
+    const before = await readState(page);
+    report(
+      'kinematics loads with Start button',
+      before.buttons.some((b) => b.includes('Start')),
+      `t = ${before.t}`,
+    );
+
+    // Brake the car: u = 5 m/s, a = −1 m/s² via the real sliders → it must
+    // come to rest at exactly t* = u/|a| = 5 s (turning point recorded).
+    await page.evaluate(() => {
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const setVal = (el, v) => {
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(el, String(v));
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      };
+      setVal(inputs[0], 5);
+      setVal(inputs[1], -1);
+    });
+    await sleep(200);
+    await clickButton(page, 'Start');
+    const rested = await page
+      .waitForFunction(() => /At rest: t = 5\.\d/.test(document.body.textContent), { timeout: 9000 })
+      .then(() => true)
+      .catch(() => false);
+    const after = await readState(page);
+    report(
+      'braking car reaches the turning point at t ≈ 5 s',
+      rested && after.t !== null && after.t > 5,
+      `sim ran to t = ${after.t} s, readout shows 'At rest: t = 5.00 s'`,
+    );
+    report(
+      'kinematics no console/page errors',
+      logs.filter((l) => l.startsWith('[error]') || l.startsWith('[pageerror]')).length === 0,
+      logs.filter((l) => l.startsWith('[error]') || l.startsWith('[pageerror]')).join(' ; ') || 'clean',
+    );
+    await page.close();
+  }
+
   /* ── Playground page ── */
   {
     const page = await browser.newPage();

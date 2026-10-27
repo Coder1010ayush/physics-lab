@@ -2,6 +2,7 @@ import { HashRouter, NavLink, Route, Routes, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PlaygroundPage from './pages/PlaygroundPage';
 import ProjectilePage from './pages/ProjectilePage';
+import KinematicsPage from './pages/KinematicsPage';
 import TopicDetailPage from './pages/TopicDetailPage';
 import classes from './App.module.css';
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/sim/projectile" element={<ProjectilePage />} />
+          <Route path="/sim/kinematics" element={<KinematicsPage />} />
           <Route path="/topic/:topicId" element={<TopicDetailPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

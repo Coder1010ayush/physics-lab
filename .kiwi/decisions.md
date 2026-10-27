@@ -105,3 +105,17 @@ Live URL returns HTTP 200. Full click-test executed against the PRODUCTION URL: 
 
 ### Status
 Validated
+
+## Subtask: P1-1 — 1D Kinematics simulation (sim + page)
+
+### Subtask relevance
+First of the user's three must-have MVP sims: 1D motion with live x/v/a, the three equations of motion substituted with live numbers, x–t and v–t graphs, and turning-point detection (the v = 0 exam moment).
+
+### Implementation
+Subagent (Autocode) built 4 files mirroring the projectile gold-standard: src/sims/kinematics.ts (KinematicsSim: ready/running/done phases, engine semiImplicitEuler 1D-through-Vec2, 30 Hz graph samples, travelled + max|v| tracking, exact turning-point math t* = t_prev − v_prev/a and x* = x_prev − v_prev²/(2a), auto-done at t ≥ 30 s), 8 unit tests, KinematicsPage (auto-zooming track with index-based ticks — structurally immune to the degenerate-range bug class from the projectile crash; car + velocity/acceleration arrows using --vec-* tokens; live FormulaBar with all three equations at 2 decimals; ReadoutGroups incl. 'At rest: t = X s'; position & velocity GraphPanels), module css. Parent wired: route /sim/kinematics, HomePage kinematics card → live, topics.ts kinematics CTA → /sim/kinematics, click-test braking scenario.
+
+### Validation
+63/63 unit tests (8 new: closed-form x/v at t = 2; turning point u = 5, a = −1 → t* ≈ 5 s, x* ≈ 12.5 m; out-and-back travelled = 25 m; auto-done; re-arm; lifecycle guards; determinism). Parent hand-verified the turning-point formulas. Build ✓, lint 0/0. Click-test 12/12 incl. a new end-to-end physics check: real slider set to u = 5, a = −1 → Start → the car comes to rest at exactly t = 5.00 s (readout verified in-browser). Screenshot OCR confirms live formula arithmetic (5.00 + −1.00 × 5.81 = −0.81 m/s ✓), travelled > displacement once reversing, parabola x–t and zero-crossing v–t graphs.
+
+### Status
+Validated

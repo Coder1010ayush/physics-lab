@@ -61,7 +61,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     ],
     explanation:
       'The three equations of motion can be read straight off a velocity–time graph: the slope gives the acceleration, and the area under the graph gives the displacement. Each equation simply leaves out one of the five quantities, so in a problem you pick the one that connects what you know to what you want.\n\nProjectile motion is two independent 1D motions running side by side. Horizontally there is no acceleration, so the ball covers equal distances in equal times; vertically it is free fall under gravity. Adding the two components back together at every instant traces the parabola you can watch in the simulation.',
-    simPath: '/sim/projectile',
+    simPath: '/sim/kinematics',
   },
 
   /* ── friction ───────────────────────────────────────────────────────── */

@@ -14,8 +14,8 @@ const TOPICS: Topic[] = [
   {
     id: 'kinematics',
     title: 'Kinematics',
-    desc: '1D motion and projectiles — position, velocity and acceleration tracked live, with the equations updating as they happen.',
-    status: 'now',
+    desc: 'Watch a car ride the track with the three equations of motion updating live — then take it into the air in the projectile lab.',
+    status: 'live',
     icon: <IconKinematics />,
   },
   {
@@ -138,7 +138,7 @@ export default function HomePage() {
       <section id="topics" className={classes.library}>
         <h2>The simulation library</h2>
         <p className={classes.libraryNote}>
-          The Projectile Lab is live — kinematics, friction and pulley follow next.
+          The Kinematics and Projectile labs are live — friction and pulley follow next.
           Open any card for definitions, concepts and formulas.
         </p>
         <div className={classes.grid}>
