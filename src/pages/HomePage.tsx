@@ -29,7 +29,7 @@ const TOPICS: Topic[] = [
     id: 'pulley',
     title: 'Force & Pulley',
     desc: 'Atwood machines and table-edge systems with live tension and free-body diagrams on every mass.',
-    status: 'now',
+    status: 'live',
     icon: <IconPulley />,
   },
   {
@@ -138,7 +138,7 @@ export default function HomePage() {
       <section id="topics" className={classes.library}>
         <h2>The simulation library</h2>
         <p className={classes.libraryNote}>
-          The Kinematics, Projectile and Friction labs are live — the pulley follows next.
+          All four MVP labs are live — Kinematics, Projectile, Friction and Pulley.
           Open any card for definitions, concepts and formulas.
         </p>
         <div className={classes.grid}>

@@ -15,7 +15,7 @@ TASKS = [
     {"id": "P1-1", "title": "Kinematics 1D sim (track, sliders, live x/v/a readouts, x-t & v-t graphs, equation bar)", "status": "done"},
     {"id": "P1-2", "title": "Projectile sim (aim + drag, trajectory trace, velocity vectors, drag toggle, range/height/time readouts)", "status": "done"},
     {"id": "P1-3", "title": "Friction sim: horizontal (staircase graph, F/f/N/W arrows) + incline (angle of repose)", "status": "done"},
-    {"id": "P1-4", "title": "Pulley sim: Atwood machine (FBDs, tension) + table-edge variant (pulley + friction)", "status": "todo"},
+    {"id": "P1-4", "title": "Pulley sim: Atwood machine (FBDs, tension) + table-edge variant (pulley + friction)", "status": "done"},
     {"id": "P1-5", "title": "Home page topic gallery + routing", "status": "done"},
     {"id": "P1-6", "title": "Browser verification pass on all MVP sims (local + production click-test, screenshots/OCR spot checks)", "status": "done"},
 

@@ -5,6 +5,7 @@ import PlaygroundPage from './pages/PlaygroundPage';
 import ProjectilePage from './pages/ProjectilePage';
 import KinematicsPage from './pages/KinematicsPage';
 import FrictionPage from './pages/FrictionPage';
+import PulleyPage from './pages/PulleyPage';
 import TopicDetailPage from './pages/TopicDetailPage';
 import classes from './App.module.css';
 
@@ -119,6 +120,7 @@ export default function App() {
           <Route path="/sim/projectile" element={<ProjectilePage />} />
           <Route path="/sim/kinematics" element={<KinematicsPage />} />
           <Route path="/sim/friction" element={<FrictionPage />} />
+          <Route path="/sim/pulley" element={<PulleyPage />} />
           <Route path="/topic/:topicId" element={<TopicDetailPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

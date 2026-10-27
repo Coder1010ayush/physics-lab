@@ -8,8 +8,10 @@ Interactive 2D physics simulation website for 12th-grade students: live,
 classroom-presentable sims for mechanics (kinematics, forces, friction,
 pulleys, circular/rotational motion, energy, momentum, oscillations, fluids).
 
-**Current state:** 3 sims live (projectile, kinematics, friction), 11 topic
-notes pages, deployed at https://physics-lab-topaz.vercel.app.
+**Current state:** Phase 1 complete — 4 sims live (projectile, kinematics, friction,
+pulley), 11 topic notes pages, deployed at https://physics-lab-topaz.vercel.app.
+Phase 2 next (conceptual chain: circular → torque → rotational → work-energy →
+momentum → oscillations).
 
 ## Stack (and why)
 - **React 19 + Vite 8 + TypeScript 6** — 10+ sims share one UI kit; TS keeps
@@ -45,6 +47,7 @@ physics-lab/
       projectile.ts         aim/fire lifecycle, drag, Moon gravity, samples
       kinematics.ts         u/a params, turning-point math, auto-done at 30 s
       friction.ts           two modes: push-ramp staircase + incline/repose
+      pulley.ts             two modes: Atwood machine + table-edge (pulley+friction)
       __tests__/            sim behaviour tests (thresholds, determinism, lifecycle)
     ui/                  reusable kit: SimShell (stage/playbar/controls/graphs
                          layout), Slider, FormulaBar, GraphPanel (canvas,
@@ -63,6 +66,7 @@ physics-lab/
       ProjectilePage.tsx   2D motion — drag-aim, vx/vy vectors, ideal ghost
       KinematicsPage.tsx   1D motion — auto-zoom track, car, live equations
       FrictionPage.tsx     stick/slide — two SVG stages, staircase graph
+      PulleyPage.tsx       Atwood + table-edge — FBDs, live tension, two modes
   .kiwi/
     Tasks.py             task tree (roadmap)
     Completed.py         completed task IDs
@@ -76,8 +80,8 @@ physics-lab/
 - `npm run build` — type-check (tsc -b) + production build to dist/ (must pass clean).
 - `npm run preview` — serve the production build locally.
 - `npm run lint` — oxlint (must be 0 warnings, 0 errors).
-- `npm test` — Vitest: 73 tests, all must pass.
-- `node .kiwi/click-test.mjs` — 17 real-browser interaction checks
+- `npm test` — Vitest: 84 tests, all must pass.
+- `node .kiwi/click-test.mjs` — 22 real-browser interaction checks
   (dev server must be running; `BASE_URL=…` overrides to test production).
 
 ## Key patterns (must follow)

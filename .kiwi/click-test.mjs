@@ -237,6 +237,97 @@ try {
     await page.close();
   }
 
+  /* ── Pulley page — tension & constraint physics ── */
+  {
+    const page = await browser.newPage();
+    const logs = [];
+    page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
+    page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
+    await page.goto(`${BASE}/#/sim/pulley`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.body.textContent.includes('Atwood'));
+
+    const loaded = await readState(page);
+    report(
+      'pulley loads with Start button',
+      loaded.buttons.some((b) => b.includes('Start')),
+      `t = ${loaded.t}`,
+    );
+
+    // ATWOOD defaults m1 = 3 kg, m2 = 2 kg → a ≈ 1.96 m/s², T ≈ 23.52 N.
+    await clickButton(page, 'Start');
+    await sleep(1500);
+    const atwood = await page.evaluate(() => {
+      const text = document.body.textContent;
+      const as = [...text.matchAll(/(-?[\d.]+)\s*m\/s²/g)].map((m) => parseFloat(m[1]));
+      const ts = [...text.matchAll(/(-?[\d.]+)\s*N/g)].map((m) => parseFloat(m[1]));
+      return {
+        a: as.find((v) => Math.abs(v - 1.96) < 0.02) ?? null,
+        T: ts.find((v) => Math.abs(v - 23.52) < 0.02) ?? null,
+      };
+    });
+    report(
+      'Atwood (3, 2) shows a ≈ 1.96 m/s² and T ≈ 23.52 N',
+      atwood.a !== null && atwood.T !== null,
+      `a = ${atwood.a} m/s², T = ${atwood.T} N`,
+    );
+
+    // TABLE-EDGE defaults (block 5 kg, hanging 1 kg, μs 0.3) → static friction holds.
+    await clickButton(page, 'Block pulled off a table');
+    await sleep(300);
+    await clickButton(page, 'Start');
+    await sleep(1500);
+    const held = await page.evaluate(() => {
+      const text = document.body.textContent;
+      const as = [...text.matchAll(/(-?[\d.]+)\s*m\/s²/g)].map((m) => parseFloat(m[1]));
+      const ts = [...text.matchAll(/(-?[\d.]+)\s*N/g)].map((m) => parseFloat(m[1]));
+      return {
+        status: [...document.querySelectorAll('*')].some((el) => el.children.length === 0 && el.textContent.trim() === 'held by static friction'),
+        a0: as.some((v) => Math.abs(v) < 0.005),
+        T: ts.find((v) => Math.abs(v - 9.8) < 0.02) ?? null,
+      };
+    });
+    report(
+      'table-edge static hold (1 kg pull vs μs·N = 14.7 N) — a = 0, T = m·g = 9.80 N',
+      held.status && held.a0 && held.T !== null,
+      `status held: ${held.status}, a = 0 on screen: ${held.a0}, T = ${held.T} N`,
+    );
+
+    // TABLE-EDGE with a 5 kg hanging mass → breaks loose: a = 39.2/10 ≈ 3.92 m/s², T ≈ 29.4 N.
+    await page.evaluate(() => {
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const mHanging = inputs[1];
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      setter.call(mHanging, '5');
+      mHanging.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await sleep(250);
+    await clickButton(page, 'Start');
+    await sleep(1500);
+    const sliding = await page.evaluate(() => {
+      const text = document.body.textContent;
+      const as = [...text.matchAll(/(-?[\d.]+)\s*m\/s²/g)].map((m) => parseFloat(m[1]));
+      const ts = [...text.matchAll(/(-?[\d.]+)\s*N/g)].map((m) => parseFloat(m[1]));
+      return {
+        status: [...document.querySelectorAll('*')].some((el) => el.children.length === 0 && el.textContent.trim() === 'sliding'),
+        a: as.find((v) => Math.abs(v - 3.92) < 0.02) ?? null,
+        T: ts.find((v) => Math.abs(v - 29.4) < 0.05) ?? null,
+      };
+    });
+    report(
+      'table-edge slides (5 kg hanging) — a ≈ 3.92 m/s², T ≈ 29.4 N',
+      sliding.status && sliding.a !== null && sliding.T !== null,
+      `status sliding: ${sliding.status}, a = ${sliding.a}, T = ${sliding.T}`,
+    );
+
+    const perrs = logs.filter((l) => l.startsWith('[error]') || l.startsWith('[pageerror]'));
+    report(
+      'pulley no console/page errors',
+      perrs.length === 0,
+      perrs.join(' ; ') || 'clean',
+    );
+    await page.close();
+  }
+
   /* ── Playground page ── */
   {
     const page = await browser.newPage();

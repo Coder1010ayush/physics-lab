@@ -109,6 +109,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     ],
     explanation:
       'Take downward as positive for the heavier mass and upward for the lighter one, and write F = ma for each. Adding the two equations removes the tension and gives the acceleration; substituting back gives the tension — the two-body version of Newton’s second law.\n\nThe formulas reward quick checks: equal masses mean nothing accelerates and each string holds a full weight; if one mass dwarfs the other, the acceleration approaches g and the tension nearly vanishes — free fall.',
+    simPath: '/sim/pulley',
   },
 
   /* ── vectors-2d ────────────────────────────────────────────────────── */

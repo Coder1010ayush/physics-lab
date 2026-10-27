@@ -197,3 +197,29 @@ These UI sprints were shipped as 5 separate commits (pushed to origin/master →
 - Build: `npm run build` → OK.
 - Production interaction smoke test:
   `BASE_URL=https://physics-lab-topaz.vercel.app node .kiwi/click-test.mjs` → 17/17 checks passed.
+
+## Planning decision: Phase-2 order + challenge-mode timing (user, 2026-10-27)
+
+- Phase 2 follows the conceptual chain: circular motion → torque → rotational motion → work-energy-power → momentum & collisions → oscillations (SHM). Each topic builds on the previous, matching textbook chapter order.
+- Gamified challenge mode (hit-the-target etc.) stays in Phase 3, after the syllabus sims: content before games.
+- Immediate next task: P1-4 Pulley Lab (Atwood + table-edge), the last MVP sim. Decisions recorded in PLAN.md §11.
+
+## Subtask: P1-4 Force & Pulley Lab — Atwood + table-edge (completed)
+
+### Subtask relevance
+The last of the three teacher-must-have MVP sims: the Atwood machine with live tension and free-body diagrams, plus the table-edge variant (pulley + friction) — the classic exam archetype. Built by subagent; physics reviewed line-by-line; wiring, click-tests and deployment by me.
+
+### Implementation
+- src/sims/pulley.ts — PulleySim, two modes ('atwood' | 'tableEdge'). 1-DOF constraint integration (single displacement s; m2 position mirrored). Reuses engine closed forms: atwood(m1,m2,g) for a/T, maxStaticFriction/kineticFriction for the table-edge static check and slide regime; T computed as mₕ(g−a) and asserted equal to mₜa + μkN. Auto-done: atwood floor/pulley-off limits, table-edge floor at 1.5 m drop, 30 s cap; balanced masses ride to the cap with status 'balanced'.
+- src/sims/__tests__/pulley.test.ts — 11 tests: a≈1.96/T≈23.52 (3,2); v≈1.96 & s≈0.98 @1s; floor landing 1.1 m; equal masses a=0/T=39.2/'balanced'; Moon (0.324/3.888) agreeing with the engine to 12 decimals; table-edge hold (9.8 < 14.7 → a=0, T=9.8, 'held'); slide (a≈6.44, T≈16.8, both tension forms agree); determinism (identical sample arrays); update() re-arm.
+- src/pages/PulleyPage.tsx + module.css — mirrors FrictionPage: mode toggle, SVG stage (pulley wheel + rope + mass-proportional blocks, T/W FBD arrows; table with N/mₜg/T/f arrows), mode-conditional sliders (m₁/m₂ or mₜ/mₕ/μs/μk), Earth/Moon gravity, positions+speed graphs, formula bar with live substitutions, FixedStepClock(1/240,12) refs-mirrors loop.
+- Wiring: route /sim/pulley + import (App.tsx), library card → live (HomePage.tsx), simPath '/sim/pulley' (topics.ts), home note updated to 'All four MVP labs are live'.
+
+### Validation
+- 84/84 unit tests; build clean; lint 0/0.
+- click-test.mjs extended to 22 checks (+5 pulley): real Chrome clicks prove Atwood a=1.96 m/s² & T=23.52 N on screen; table-edge defaults hold (chip 'held by static friction', a=0, T=9.80 N); with a 5 kg hanging mass it breaks loose (chip 'sliding', a=3.92 m/s², T=29.4 N — matches both free-body equations); zero console errors.
+- Test-harness lessons: the page glues unit spans ("23.52N") so regexes must not require a word boundary after N; mode toggle labels are full sentences ('Block pulled off a table'), and status chips must be matched as exact standalone text nodes because caption prose permanently contains 'sliding'.
+- Production click-test: 22/22 against https://physics-lab-topaz.vercel.app.
+
+### Status
+Validated

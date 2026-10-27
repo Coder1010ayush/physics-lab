@@ -1,0 +1,170 @@
+.stageSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ground {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.hatch {
+  stroke: var(--ink-line);
+  stroke-width: 1;
+}
+
+.tick {
+  stroke: var(--ink-line);
+  stroke-width: 1;
+}
+
+.tickLabel {
+  font: 400 10px var(--font-mono);
+  fill: var(--ink-faint);
+}
+
+.axisCaption {
+  font: 600 10.5px var(--font-ui);
+  fill: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+
+/* the pulley wheel + its rope */
+.pulley {
+  fill: var(--chalk-lift);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.pulleyAxle {
+  fill: var(--ink);
+}
+
+.rope {
+  stroke: var(--ink-soft);
+  stroke-width: 1.6;
+}
+
+.table {
+  fill: var(--chalk-sunk);
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.block {
+  fill: var(--ultramarine);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+}
+
+.massLabel {
+  font: italic 600 13px var(--font-math);
+  fill: var(--chalk-lift);
+  text-anchor: middle;
+}
+
+.mathLabel {
+  font: italic 600 14px var(--font-math);
+  fill: var(--ink);
+}
+
+/* tension — green */
+.tensionArrow {
+  stroke: var(--vec-tension);
+  stroke-width: 2.6;
+}
+
+.tensionLabel {
+  fill: var(--vec-tension);
+}
+
+/* weight — red */
+.forceArrow {
+  stroke: var(--vec-force);
+  stroke-width: 2.6;
+}
+
+.forceLabel {
+  fill: var(--vec-force);
+}
+
+/* friction — purple */
+.frictionArrow {
+  stroke: var(--vec-friction);
+  stroke-width: 2.6;
+}
+
+.frictionLabel {
+  fill: var(--vec-friction);
+}
+
+/* normal force — thin structural ink */
+.structArrow {
+  stroke: var(--vec-structural);
+  stroke-width: 1.6;
+}
+
+.structLabel {
+  fill: var(--vec-structural);
+}
+
+.stageChip {
+  fill: var(--chalk-lift);
+  stroke: var(--ink-hair);
+}
+
+.stageChipText {
+  font: 500 11px var(--font-ui);
+  fill: var(--ink-soft);
+}
+
+.statusChipText {
+  font: 600 11px var(--font-ui);
+  fill: var(--vec-tension);
+}
+
+/* mode + gravity segmented controls (controls panel) */
+.modeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.modeLabel {
+  font: 600 0.8rem var(--font-ui);
+  color: var(--ink-soft);
+}
+
+.seg {
+  display: inline-flex;
+  background: var(--chalk-sunk);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segBtn,
+.segActive {
+  border: 0;
+  cursor: pointer;
+  font: 600 0.8rem var(--font-mono);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  color: var(--ink-soft);
+  background: transparent;
+  transition: color 120ms var(--ease-micro), background-color 120ms var(--ease-micro);
+}
+
+.segBtn:hover {
+  color: var(--ink);
+}
+
+.segActive {
+  background: var(--chalk-lift);
+  color: var(--ultramarine);
+  box-shadow: var(--e1);
+}

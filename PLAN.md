@@ -1,6 +1,6 @@
 # Physics Lab — Complete Idea & Plan (v1.0)
 
-**Prepared:** 2026-10-27 · **Status:** Phase 0 complete — Phase 1 (MVP sims) next
+**Prepared:** 2026-10-27 · **Last updated:** 2026-10-27 · **Status:** Phase 1 complete — all four MVP sims live
 
 ## 1. The Idea
 
@@ -155,7 +155,11 @@ See `.kiwi/Tasks.py` for the task tree with IDs. Summary:
 - P1-3 Friction Lab: push-ramp staircase force graph + incline with
   angle-of-repose marker (verified: breakaway at μs·N = 24.5 N, rest/slide
   across atan μs).
-- Quality infrastructure: 73 physics tests; 17-check real-browser
+- P1-4 Force & Pulley Lab: Atwood machine + table-edge variant, live
+  tension, FBDs on every mass (verified: Atwood (3,2) → a = 1.96 m/s²,
+  T = 23.52 N on screen; table-edge static hold and breakaway with both
+  tension equations agreeing). **Phase 1 complete.**
+- Quality infrastructure: 84 physics tests; 22-check real-browser
   click-test (runs against localhost AND production); fix for the 1-ulp
   graph crash found by the first real user click; CTA hover contrast fix.
 - Font swap: JetBrains Mono (self-hosted Fontsource) is the instrument font
@@ -163,8 +167,10 @@ See `.kiwi/Tasks.py` for the task tree with IDs. Summary:
   for definitions/formulas (user decision 2026-10-27).
 
 **Next:**
-- P1-4 Force & Pulley (Atwood + table-edge variant, live tension, FBDs) —
-  the last of the three must-have MVP sims.
-- P1-5 library cards all live; then Phase 2 topics (circular, torque,
-  rotational, work-energy, momentum, oscillations) and Phase 3
-  (fluids, challenge mode, hosting polish).
+- Phase 2 (conceptual chain, user decision): circular motion → torque →
+  rotational motion → work-energy-power → momentum & collisions →
+  oscillations. Then Phase 3 (fluids, challenge mode, hosting polish).
+- Phase 2 order locked (user decision, 2026-10-27): **conceptual chain** —
+  circular → torque → rotational → work-energy → momentum → oscillations.
+- Challenge mode stays in Phase 3 (user decision, 2026-10-27): content
+  before games.
