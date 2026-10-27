@@ -81,3 +81,10 @@ physics-lab/
 - Pitfall: GraphPanel consumes live series data whose ranges can be degenerate (all-equal values, or two values 1 ulp apart — e.g. vx0 vs vy0 at exactly 45°). Never hand-roll tick loops against raw min/max: route all axis math through `src/ui/graphTicks.ts` (`niceTicks`) and GraphPanel's `saneRange` normalisation.
 - If `npm install` runs while the dev server is up, Vite may re-optimise dependencies and force client reloads (detaching automated-test frames). Restart the dev server before interaction testing.
 - CLI default command timeout is short (~30s): always pass an explicit generous `timeout_sec` for npm/chrome commands.
+
+## Deployment (2026-10-27)
+
+- Live site: https://physics-lab-topaz.vercel.app
+- Repo: https://github.com/Coder1010ayush/physics-lab (public, master → origin)
+- Deploy: `git push` (repo connected — every push to master auto-builds and updates the live URL) or manually: `vercel deploy --prod --yes`
+- Verify a deployment end-to-end: `BASE_URL=https://physics-lab-topaz.vercel.app node .kiwi/click-test.mjs`

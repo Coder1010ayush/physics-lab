@@ -89,3 +89,19 @@ Also built .kiwi/click-test.mjs — a puppeteer-core real-click smoke test (Star
 
 ### Status
 Validated
+
+## Subtask: GitHub repo + Vercel production deployment (user-requested)
+
+### Subtask relevance
+User asked to publish the project to their GitHub and deploy live on Vercel (both CLIs logged in). Decisions approved via ask_human: Public repo, name physics-lab, deploy now.
+
+### Implementation
+- .gitignore: added .vercel (CLI local state). Click-test now accepts BASE_URL override so the deployed site gets the same interaction verification as localhost.
+- `gh repo create physics-lab --public --source=. --push` → github.com/Coder1010ayush/physics-lab (master tracks origin, full history pushed).
+- `vercel deploy --prod --yes` → https://physics-lab-topaz.vercel.app (Vite auto-detected, remote build 8s). The GitHub repo was auto-connected for push-to-deploy CI.
+
+### Validation
+Live URL returns HTTP 200. Full click-test executed against the PRODUCTION URL: 9/9 PASS — Start runs the sim (t 0→1.3 s), trail drawn, Pause freezes, landing measures R = 40.8 m (ideal 40.8 m), playground runs, zero console/page errors. Push-to-deploy pipeline verified by triggering a rebuild from the docs commit.
+
+### Status
+Validated
