@@ -1,0 +1,148 @@
+.stageSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ground {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.tick {
+  stroke: var(--ink-line);
+  stroke-width: 1;
+}
+
+.tickLabel {
+  font: 400 10px var(--font-mono);
+  fill: var(--ink-faint);
+}
+
+.axisCaption {
+  font: 600 10.5px var(--font-ui);
+  fill: var(--ink-soft);
+  letter-spacing: 0.05em;
+}
+
+.ghost {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.6;
+  stroke-dasharray: 5 5;
+  opacity: 0.55;
+}
+
+.trail {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.originDot {
+  fill: var(--ink);
+}
+
+.ball {
+  fill: var(--ultramarine);
+}
+
+.aimArrow {
+  stroke: var(--ultramarine);
+  stroke-width: 2.6;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.4;
+}
+
+.mathLabel {
+  font: italic 600 14px var(--font-math);
+  fill: var(--ink);
+}
+
+.velArrow {
+  stroke: var(--vec-velocity);
+  stroke-width: 2.4;
+}
+
+.velLabel {
+  fill: var(--vec-velocity);
+}
+
+.compArrow {
+  stroke: var(--vec-velocity);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.75;
+}
+
+.landingTick {
+  stroke: var(--ultramarine);
+  stroke-width: 2;
+}
+
+.rangeLabel {
+  font: italic 600 14px var(--font-math);
+  fill: var(--ultramarine);
+}
+
+.stageChip {
+  fill: var(--chalk-lift);
+  stroke: var(--ink-hair);
+}
+
+.stageChipText {
+  font: 500 11px var(--font-ui);
+  fill: var(--ink-soft);
+}
+
+.legendDash {
+  stroke: var(--ink-soft);
+  stroke-width: 1.6;
+  stroke-dasharray: 4 4;
+  opacity: 0.7;
+}
+
+/* gravity segmented control (controls panel) */
+.gravityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.seg {
+  display: inline-flex;
+  background: var(--chalk-sunk);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segBtn,
+.segActive {
+  border: 0;
+  cursor: pointer;
+  font: 600 0.8rem var(--font-mono);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  color: var(--ink-soft);
+  background: transparent;
+  transition: color 120ms var(--ease-micro), background-color 120ms var(--ease-micro);
+}
+
+.segBtn:hover {
+  color: var(--ink);
+}
+
+.segActive {
+  background: var(--chalk-lift);
+  color: var(--ultramarine);
+  box-shadow: var(--e1);
+}

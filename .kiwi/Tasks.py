@@ -11,6 +11,7 @@ TASKS = [
     {"id": "P0-6", "title": "Vitest setup + engine tests vs closed-form physics (projectile range, kinematics, Atwood a/T, incline threshold, friction staircase)", "status": "todo"},
 
     # ---- Phase 1: MVP sims ----
+    {"id": "P1-0", "title": "Topic detail pages for all library cards (definition, concepts, formulas, explanation + CTA to sim)", "status": "todo"},
     {"id": "P1-1", "title": "Kinematics 1D sim (track, sliders, live x/v/a readouts, x-t & v-t graphs, equation bar)", "status": "todo"},
     {"id": "P1-2", "title": "Projectile sim (aim + drag, trajectory trace, velocity vectors, drag toggle, range/height/time readouts)", "status": "todo"},
     {"id": "P1-3", "title": "Friction sim: horizontal (staircase graph, F/f/N/W arrows) + incline (angle of repose)", "status": "todo"},

@@ -160,3 +160,15 @@
 .accentFill {
   fill: var(--ultramarine);
 }
+
+/* live status chip + clickable cards */
+.chipLive {
+  background: var(--ultramarine);
+  color: var(--chalk-lift);
+}
+
+.cardNow,
+.cardSoon {
+  text-decoration: none;
+  color: var(--ink);
+}

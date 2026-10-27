@@ -3,80 +3,98 @@ import type { CSSProperties, ReactNode } from 'react';
 import classes from './HomePage.module.css';
 
 interface Topic {
+  id: string;
   title: string;
   desc: string;
-  status: 'now' | 'soon';
+  status: 'live' | 'now' | 'soon';
   icon: ReactNode;
 }
 
 const TOPICS: Topic[] = [
   {
+    id: 'kinematics',
     title: 'Kinematics',
     desc: '1D motion and projectiles — position, velocity and acceleration tracked live, with the equations updating as they happen.',
     status: 'now',
     icon: <IconKinematics />,
   },
   {
-    title: 'Friction',
+    id: 'friction',
     desc: 'Static vs kinetic friction on flat ground and on ramps — including the famous staircase graph and the angle of repose.',
+    title: 'Friction',
     status: 'now',
     icon: <IconFriction />,
   },
   {
+    id: 'pulley',
     title: 'Force & Pulley',
     desc: 'Atwood machines and table-edge systems with live tension and free-body diagrams on every mass.',
     status: 'now',
     icon: <IconPulley />,
   },
   {
+    id: 'vectors-2d',
     title: '2D Motion & Vectors',
-    desc: 'Add and resolve vectors; watch components drive the motion.',
-    status: 'soon',
+    desc: 'Add and resolve vectors; watch components drive a real projectile — now with air drag and Moon gravity.',
+    status: 'live',
     icon: <IconVectors />,
   },
   {
+    id: 'circular',
     title: 'Circular Motion',
     desc: 'Uniform circular motion, centripetal force and banking.',
     status: 'soon',
     icon: <IconCircular />,
   },
   {
+    id: 'torque',
     title: 'Torque',
     desc: 'Rotational balance, levers and couples.',
     status: 'soon',
     icon: <IconTorque />,
   },
   {
+    id: 'rotational',
     title: 'Rotational Motion',
     desc: 'Moment of inertia and angular dynamics.',
     status: 'soon',
     icon: <IconRotational />,
   },
   {
+    id: 'work-energy',
     title: 'Work & Energy',
     desc: 'Energy conservation along real tracks.',
     status: 'soon',
     icon: <IconEnergy />,
   },
   {
+    id: 'momentum',
     title: 'Momentum & Collisions',
     desc: 'Elastic and inelastic — see exactly what is conserved.',
     status: 'soon',
     icon: <IconMomentum />,
   },
   {
+    id: 'oscillations',
     title: 'Oscillations',
     desc: 'Springs and pendulums in simple harmonic motion.',
     status: 'soon',
     icon: <IconOscillation />,
   },
   {
+    id: 'fluids',
     title: 'Fluids',
     desc: 'Buoyancy, Bernoulli and continuity.',
     status: 'soon',
     icon: <IconFluid />,
   },
 ];
+
+function chipFor(status: Topic['status']): [string, string] {
+  if (status === 'live') return ['chip chipLive', 'Available now'];
+  if (status === 'now') return ['chip chipBrand', 'Building now'];
+  return ['chip chipMuted', 'Coming soon'];
+}
 
 export default function HomePage() {
   return (
@@ -92,8 +110,8 @@ export default function HomePage() {
             vectors move, and read the formulas as they update in real time.
           </p>
           <div className={classes.ctaRow}>
-            <Link to="/playground" className="btn btnPrimary">
-              Open the Playground
+            <Link to="/sim/projectile" className="btn btnPrimary">
+              Launch the Projectile Lab
             </Link>
             <a href="#topics" className="btn btnGhost">
               Browse topics
@@ -120,25 +138,28 @@ export default function HomePage() {
       <section id="topics" className={classes.library}>
         <h2>The simulation library</h2>
         <p className={classes.libraryNote}>
-          Three simulations are being built first — the rest follow the same design
-          and the same verified engine.
+          The Projectile Lab is live — kinematics, friction and pulley follow next.
+          Open any card for definitions, concepts and formulas.
         </p>
         <div className={classes.grid}>
-          {TOPICS.map((topic) => (
-            <article
-              key={topic.title}
-              className={topic.status === 'now' ? classes.cardNow : classes.cardSoon}
-            >
-              <div className={topic.status === 'now' ? classes.iconNow : classes.iconSoon}>
-                {topic.icon}
-              </div>
-              <h3>{topic.title}</h3>
-              <p>{topic.desc}</p>
-              <span className={topic.status === 'now' ? 'chip chipBrand' : 'chip chipMuted'}>
-                {topic.status === 'now' ? 'Building now' : 'Coming soon'}
-              </span>
-            </article>
-          ))}
+          {TOPICS.map((topic) => {
+            const [chipClass, chipText] = chipFor(topic.status);
+            return (
+              <Link
+                key={topic.id}
+                to={`/topic/${topic.id}`}
+                className={topic.status === 'soon' ? classes.cardSoon : classes.cardNow}
+                aria-label={`${topic.title} — concepts, formulas and details`}
+              >
+                <div className={topic.status === 'soon' ? classes.iconSoon : classes.iconNow}>
+                  {topic.icon}
+                </div>
+                <h3>{topic.title}</h3>
+                <p>{topic.desc}</p>
+                <span className={chipClass}>{chipText}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>
@@ -154,9 +175,7 @@ function HeroFigure() {
       role="img"
       aria-label="A projectile launched at an angle, with its velocity vector and components shown"
     >
-      {/* ground */}
       <line x1="30" y1="250" x2="450" y2="250" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" />
-      {/* trajectory */}
       <path
         d="M50 250 Q240 42 430 250"
         fill="none"
@@ -164,19 +183,15 @@ function HeroFigure() {
         strokeWidth="2"
         strokeDasharray="6 6"
       />
-      {/* max height guide */}
       <line x1="240" y1="146" x2="240" y2="250" stroke="var(--ink-line)" strokeDasharray="4 5" />
       <text x="240" y="264" textAnchor="middle" className={classes.figureLabel}>
         h
       </text>
-      {/* launch angle */}
       <path d="M50 250 A 46 46 0 0 0 82 222" fill="none" stroke="var(--ink-soft)" strokeWidth="1.5" />
       <text x="70" y="240" className={classes.figureLabel}>
         θ
       </text>
-      {/* projectile at apex */}
       <circle cx="240" cy="146" r="7" fill="var(--ultramarine)" />
-      {/* velocity vector at apex (purely horizontal at apex) + components elsewhere shown at 45° launch… keep apex: horizontal */}
       <line x1="240" y1="146" x2="308" y2="146" stroke="var(--vec-velocity)" strokeWidth="2.4" markerEnd="url(#heroVel)" />
       <text x="315" y="150" className={classes.figureLabel} fill="var(--vec-velocity)">
         v
@@ -186,7 +201,6 @@ function HeroFigure() {
           <path d="M0 0 L8 4 L0 8 Z" fill="var(--vec-velocity)" />
         </marker>
       </defs>
-      {/* range annotation */}
       <line x1="50" y1="266" x2="430" y2="266" stroke="var(--ink-line)" strokeWidth="1.2" />
       <line x1="50" y1="260" x2="50" y2="272" stroke="var(--ink-line)" strokeWidth="1.2" />
       <line x1="430" y1="260" x2="430" y2="272" stroke="var(--ink-line)" strokeWidth="1.2" />
@@ -252,7 +266,7 @@ function IconVectors() {
       <path d="M6 26 L26 26" />
       <path d="M23 23 l3 3 l-3 3" />
       <path d="M6 26 L14 8" />
-      <path d="M11 11 l3 -3 l1 4" transform="rotate(0)" />
+      <path d="M11 11 l3 -3 l1 4" />
       <path d="M26 26 L14 8" strokeDasharray="2 3" opacity="0.5" />
     </svg>
   );
