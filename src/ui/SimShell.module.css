@@ -1,0 +1,152 @@
+.head {
+  margin: var(--s-6) 0 var(--s-4);
+  display: grid;
+  gap: var(--s-2);
+}
+
+.back {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink-soft);
+  width: max-content;
+}
+
+.back:hover {
+  color: var(--ultramarine);
+}
+
+.title {
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  max-width: 60ch;
+}
+
+.body {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.stageCard {
+  background: var(--chalk-lift);
+  border-radius: var(--r-md);
+  box-shadow: var(--e2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 340px;
+  background-color: var(--chalk-lift);
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+}
+
+.stage > * {
+  position: absolute;
+  inset: 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border-top: 1px solid var(--ink-hair);
+  flex-wrap: wrap;
+}
+
+.play {
+  padding: var(--s-2) var(--s-4);
+  font-size: 0.9rem;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding-inline: var(--s-2);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.speeds {
+  display: flex;
+  background: var(--chalk-sunk);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.speedBtn,
+.speedActive {
+  border: 0;
+  cursor: pointer;
+  font: 600 0.8rem var(--font-mono);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  color: var(--ink-soft);
+  background: transparent;
+  transition: color 120ms var(--ease-micro), background-color 120ms var(--ease-micro);
+}
+
+.speedBtn:hover {
+  color: var(--ink);
+}
+
+.speedActive {
+  background: var(--chalk-lift);
+  color: var(--ultramarine);
+  box-shadow: var(--e1);
+}
+
+.controlsCard {
+  background: var(--chalk-lift);
+  border-radius: var(--r-md);
+  box-shadow: var(--e2);
+  padding: var(--s-4);
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.controls {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+}
+
+.graphs {
+  margin-top: var(--s-4);
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+}
+
+.formulas {
+  margin-top: var(--s-4);
+}

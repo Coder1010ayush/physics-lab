@@ -1,0 +1,64 @@
+.strip {
+  background: var(--chalk-lift);
+  border-radius: var(--r-md);
+  box-shadow: var(--e2);
+  padding: var(--s-2) var(--s-3);
+}
+
+.row {
+  display: flex;
+  gap: var(--s-2);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-block: 2px;
+}
+
+.chip {
+  background: var(--chalk-sunk);
+  border-radius: var(--r-sm);
+  padding: var(--s-2) var(--s-3);
+  display: grid;
+  gap: 0.1rem;
+  flex: none;
+}
+
+.label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.math {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.formula {
+  font-family: var(--font-math);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.substitution {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.result {
+  font-family: var(--font-math);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ultramarine);
+}
+
+.unit {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}

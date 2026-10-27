@@ -20,16 +20,19 @@ physics-lab/
   index.html            entrypoint (Vite) — title: physics-lab
   src/
     main.tsx              React mount
-    App.tsx / App.css      template demo (to be replaced in P0-3)
-    index.css              global styles (to be replaced by theme tokens)
+    App.tsx                router shell + nav + footer (HashRouter)
+    index.css              fontsource imports + theme/tokens.css + theme/global.css
     assets/                static assets
     engine/               PURE physics: no React, no canvas, no DOM imports allowed
-      __tests__/            Vitest tests vs textbook closed-form solutions
-    sims/                per-topic sim modules: state + params + step() (planned)
-    render/              canvas drawing: grid, arrows, trails, FBDs (planned)
-    ui/                  reusable: SimShell, Slider, FormulaBar, GraphPanel, ReadoutGroup (planned)
-    theme/               design tokens: colors, spacing, fonts (planned)
-    pages/               Home (topic gallery) + one page per sim (planned)
+      vec2.ts               2D vector algebra (immutable Vec2)
+      integrator.ts         semiImplicitEuler + FixedStepClock (deterministic)
+      forces.ts             gravity/incline/friction/drag/atwood closed forms
+      __tests__/            Vitest tests vs textbook closed-form solutions (37)
+    sims/                per-topic sim modules: state + params + step() (Phase 1)
+    render/              canvas drawing: grid, arrows, trails, FBDs (Phase 1)
+    ui/                  reusable: SimShell, Slider, FormulaBar, GraphPanel, ReadoutGroup
+    theme/               design tokens (Chalk & Ultramarine): tokens.css, global.css
+    pages/               HomePage (topic gallery) + PlaygroundPage (kit demo); sim pages in Phase 1
   .kiwi/                project memory: Tasks.py, Completed.py, decisions.md
   PLAN.md               full project plan
 ```
@@ -39,7 +42,7 @@ physics-lab/
 - `npm run build` — type-check (tsc -b) + production build to dist/ (must pass clean).
 - `npm run preview` — serve the production build locally.
 - `npm run lint` — oxlint.
-- `npm test` — Vitest (NOT yet configured; arrives in P0-6).
+- `npm test` — Vitest engine suite: 37 tests vs closed-form physics.
 
 ## Key patterns (must follow)
 1. **Engine purity:** `src/engine/**` never imports React or touches the DOM.

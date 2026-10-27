@@ -1,0 +1,52 @@
+.stageSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wall {
+  fill: var(--ink-soft);
+}
+
+.spring {
+  stroke: var(--ink-soft);
+  stroke-width: 2.4;
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.block {
+  fill: var(--chalk-sunk);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.blockLabel {
+  font: italic 600 17px var(--font-math);
+  fill: var(--ink);
+}
+
+.equilibrium {
+  stroke: var(--ink-line);
+  stroke-dasharray: 4 5;
+}
+
+.ampLine {
+  stroke: var(--ink-line);
+  stroke-dasharray: 2 6;
+}
+
+.stageLabel {
+  font: italic 600 15px var(--font-math);
+  fill: var(--ink-faint);
+}
+
+.velArrow {
+  stroke: var(--vec-velocity);
+  stroke-width: 2.6;
+}
+
+.velLabel {
+  font: italic 600 16px var(--font-math);
+  fill: var(--vec-velocity);
+}

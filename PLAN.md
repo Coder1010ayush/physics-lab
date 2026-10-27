@@ -1,6 +1,6 @@
 # Physics Lab — Complete Idea & Plan (v1.0)
 
-**Prepared:** 2026-10-27 · **Status:** Phase 0 (foundation) in progress
+**Prepared:** 2026-10-27 · **Status:** Phase 0 complete — Phase 1 (MVP sims) next
 
 ## 1. The Idea
 

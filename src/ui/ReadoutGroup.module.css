@@ -1,0 +1,60 @@
+.chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+  gap: var(--s-2);
+}
+
+.chip {
+  background: var(--chalk-sunk);
+  border-radius: var(--r-sm);
+  padding: var(--s-2) var(--s-3);
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.dotRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-width: 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.unit {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-weight: 500;
+}

@@ -1,0 +1,78 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 246, 241, 0.86);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--ink-hair);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  gap: var(--s-4);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.brand em {
+  font-style: italic;
+  color: var(--ultramarine);
+}
+
+.logoNucleus {
+  fill: var(--ultramarine);
+}
+
+.links {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.links a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: color 120ms var(--ease-micro), background-color 120ms var(--ease-micro);
+}
+
+.links a:hover {
+  color: var(--ink);
+  background: var(--chalk-sunk);
+}
+
+.links a.active {
+  color: var(--ultramarine);
+  background: var(--ultramarine-wash);
+}
+
+.footer {
+  border-top: 1px solid var(--ink-hair);
+  padding-block: var(--s-6);
+  margin-top: var(--s-8);
+}
+
+.footerNote {
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .links a { padding: var(--s-2); }
+  .nav { height: 56px; }
+}

@@ -1,0 +1,70 @@
+/* ── PhysicsLab · Chalk & Ultramarine design tokens ────────────────
+   Grounded in the domain: graph paper, board ink, textbook paper.
+   ONE accent (ultramarine). Vector colors are data encoding, not decoration. */
+
+:root {
+  /* ground — warm paper, never pure white */
+  --chalk: #F7F6F1;
+  --chalk-sunk: #ECEAE2;
+  --chalk-lift: #FCFBF8;
+
+  /* ink — never pure black */
+  --ink: #1A1915;
+  --ink-soft: #57544B;
+  --ink-faint: #706C61;
+  --ink-hair: rgba(26, 25, 21, 0.10);
+  --ink-line: rgba(26, 25, 21, 0.22);
+
+  /* brand — the one accent */
+  --ultramarine: #2B3FA8;
+  --ultramarine-deep: #22337F;
+  --ultramarine-wash: rgba(43, 63, 168, 0.08);
+
+  /* semantic quantity colors (data encoding, ≥4.5:1 on chalk-lift) */
+  --vec-velocity: #0E7490;
+  --vec-acceleration: #C2410C;
+  --vec-force: #B91C1C;
+  --vec-friction: #7C3AED;
+  --vec-tension: #15803D;
+  --vec-structural: #6B675C;
+
+  /* states */
+  --ok: #15803D;
+  --warn: #B45309;
+  --bad: #B91C1C;
+
+  /* space scale */
+  --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem;
+  --s-5: 1.5rem; --s-6: 2rem; --s-7: 3rem; --s-8: 4rem;
+
+  /* radii — one family (product) */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-full: 999px;
+
+  /* depth — two-layer, single light source, ink-tinted */
+  --e1: 0 1px 2px rgba(26, 25, 21, 0.05);
+  --e2: 0 1px 2px rgba(26, 25, 21, 0.06), 0 3px 8px rgba(26, 25, 21, 0.05);
+  --e3: 0 2px 4px rgba(26, 25, 21, 0.06), 0 10px 24px rgba(26, 25, 21, 0.08);
+
+  /* type steps */
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.25rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3.4rem);
+  --step-4: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+
+  /* three voices: interface · math · instrument */
+  --font-ui: 'Archivo', system-ui, sans-serif;
+  --font-math: 'STIX Two Text', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* motion */
+  --ease-micro: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-state: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* graph paper (signature atmosphere) */
+  --grid-line: rgba(26, 25, 21, 0.055);
+}
