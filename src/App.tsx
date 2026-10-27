@@ -24,9 +24,12 @@ export default function App() {
   // the user's preference for when projector mode is turned off.
   const [darkPref, setDarkPref] = useState(() => {
     try {
-      return window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark';
+      const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+      // Default for first-time visitors: Dark.
+      if (saved === null) return true;
+      return saved === 'dark';
     } catch {
-      return false;
+      return true;
     }
   });
 

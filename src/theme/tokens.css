@@ -49,13 +49,13 @@
   --e2: 0 1px 2px rgba(26, 25, 21, 0.06), 0 3px 8px rgba(26, 25, 21, 0.05);
   --e3: 0 2px 4px rgba(26, 25, 21, 0.06), 0 10px 24px rgba(26, 25, 21, 0.08);
 
-  /* type steps */
-  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
-  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.25rem);
-  --step-3: clamp(2rem, 1.6rem + 2vw, 3.4rem);
-  --step-4: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+  /* type steps (tuned for readability + better hierarchy on laptops/projectors) */
+  --step--1: clamp(0.86rem, 0.84rem + 0.10vw, 0.92rem);
+  --step-0: clamp(1rem, 0.98rem + 0.12vw, 1.08rem);
+  --step-1: clamp(1.18rem, 1.12rem + 0.25vw, 1.35rem);
+  --step-2: clamp(1.45rem, 1.30rem + 0.60vw, 1.90rem);
+  --step-3: clamp(1.85rem, 1.55rem + 1.20vw, 2.80rem);
+  --step-4: clamp(2.25rem, 1.80rem + 2.40vw, 3.80rem);
 
   /* three voices: interface · math · instrument */
   --font-ui: 'Archivo', system-ui, sans-serif;

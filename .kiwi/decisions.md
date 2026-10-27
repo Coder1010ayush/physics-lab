@@ -164,3 +164,9 @@ Validated
 - Dark theme applied via `data-theme='dark'` on `<html>`.
 - Projector mode forces Light (Dark toggle disabled while projector is on).
 - Top bar background now uses `--topbar-bg` token so it adapts to light/dark.
+
+## UI Sprint 3 — Typography tuning + dark-by-default
+
+- Dark theme defaults ON for first-time visitors (no saved preference); projector mode still forces Light.
+- Tuned global type scale tokens (`--step-*`) for better hierarchy.
+- Tweaked global caption typography for readability.

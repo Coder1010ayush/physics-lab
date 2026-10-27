@@ -108,9 +108,9 @@ a:not(.btn):hover { color: var(--ultramarine-deep); }
 
 /* shared text utilities */
 .caption {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
