@@ -63,7 +63,13 @@ Validated
 User request: clicking ANY library card must open a detail page (definition, concepts, formulas, explanation) with a CTA button to that topic's simulation (playground fallback for unbuilt topics). Turns the library into a teaching resource, not just a status board. Delegated to a subagent with exact formula lists supplied by the parent to guarantee physics accuracy.
 
 ### Implementation
-In progress (subagent owns src/content/topics.ts + src/pages/TopicDetailPage.tsx + css).
+Delivered by subagent, parent-reviewed: src/content/topics.ts (11 topics × tagline/definition/5 concepts/textbook formulas/2-paragraph explanation; simPath '/sim/projectile' on kinematics + vectors-2d only) and src/pages/TopicDetailPage.tsx + css (route /topic/:topicId, unknown ids redirect home; back link, h1, tagline, CTA 'Open simulation'/'Open the playground', four cards: Definition, Key concepts, Formulas, Understanding; design tokens only). Parent wired the route into App.tsx.
+
+### Validation
+Parent read all 11 topics' content: formulas byte-exact vs spec; friction worked example (μk 0.25, 30° → ≈2.8 m/s²) and Atwood limit checks verified by hand. Subagent ran build + lint 0/0 and machine-checked all 39 formula strings. Parent re-ran build/lint/test after wiring and browser-verified a sim topic and a non-sim topic.
+
+### Status
+Validated
 
 ### Validation
 Parent reviews content physics + code after subagent report; wired into routes by parent; browser verification of card → detail → sim flow.

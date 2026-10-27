@@ -32,7 +32,9 @@ physics-lab/
     render/              canvas drawing: grid, arrows, trails, FBDs (Phase 1)
     ui/                  reusable: SimShell, Slider, FormulaBar, GraphPanel, ReadoutGroup
     theme/               design tokens (Chalk & Ultramarine): tokens.css, global.css
-    pages/               HomePage (topic gallery) + PlaygroundPage (kit demo); sim pages in Phase 1
+    content/             topics.ts: TOPIC_CONTENT — per-topic definition, concepts, textbook formulas
+    pages/               HomePage (library), TopicDetailPage (classroom content),
+                         PlaygroundPage (kit demo), ProjectilePage (2D motion sim)
   .kiwi/                project memory: Tasks.py, Completed.py, decisions.md
   PLAN.md               full project plan
 ```
