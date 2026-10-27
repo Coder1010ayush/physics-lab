@@ -31,7 +31,10 @@ physics-lab/
   PLAN.md               full project plan + progress log
   src/
     main.tsx              React mount
-    App.tsx               HashRouter: / /playground /topic/:id /sim/{projectile,kinematics,friction}
+    App.tsx               HashRouter + top bar toggles: Projector + Dark theme.
+                         Persists to localStorage (`physicslab_ui_projector`, `physicslab_ui_theme`).
+                         Default for first-time visitors: Dark; Projector mode forces Light.
+                         Routes: / /playground /topic/:id /sim/{projectile,kinematics,friction}
     index.css            fontsource imports + theme/tokens.css + theme/global.css
     engine/               PURE physics: no React, no canvas, no DOM imports allowed
       vec2.ts               2D vector algebra (immutable Vec2)
@@ -46,8 +49,9 @@ physics-lab/
     ui/                  reusable kit: SimShell (stage/playbar/controls/graphs
                          layout), Slider, FormulaBar, GraphPanel (canvas,
                          graphTicks-guarded axes), ReadoutGroup
-    theme/               tokens.css (Chalk & Ultramarine design system),
-                         global.css (chips, buttons, captions, animations)
+    theme/               tokens.css (design system + semantic-by-quantity `--vec-*` colors)
+                         global.css (layout primitives, containers/measure, projector scaling, components)
+                         Theme is driven by <html> data attrs: `data-theme='dark'` and `data-ui='projector'`.
     content/topics.ts    TOPIC_CONTENT — 11 topics: definition, concepts,
                          formulas, explanation, optional simPath
     pages/
@@ -150,4 +154,4 @@ physics-lab/
 - Deploy: push to `master` (auto-builds, ~1 min) or `vercel deploy --prod --yes`.
 - Verify a deployment: `BASE_URL=https://physics-lab-topaz.vercel.app
   node .kiwi/click-test.mjs` (17 checks against production).
-- Static build, no backend/env/secret; also runs offline from the laptop.
+- Static build, no backend/env/secret; should run offline from the laptop (verify once with Wi‑Fi off).

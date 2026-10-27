@@ -181,3 +181,19 @@ Validated
 
 - Added `.containerWide` (max-width 1200px) for simulation pages and applied it in SimShell.
 - Increased stage minimum height to 360px, and 440px on desktop screens (≥960px).
+
+### UI sprints — stage-wise commits (master)
+
+These UI sprints were shipped as 5 separate commits (pushed to origin/master → Vercel auto-deploy):
+- 9b5f517 ui: projector mode + wrap formulas + velocity semantics
+- 9bae07f ui: dark theme toggle + chalkboard tokens
+- cae8ad0 ui: typography tuning + dark-by-default
+- d60c424 ui: tighter measure + centered notes
+- 972f680 ui: wider sim layout + larger stage
+
+### UI sprints — verification snapshot (2026-10-27)
+- Unit tests: `npm test` → 73/73 passed.
+- Lint: `npm run lint` → 0 warnings / 0 errors.
+- Build: `npm run build` → OK.
+- Production interaction smoke test:
+  `BASE_URL=https://physics-lab-topaz.vercel.app node .kiwi/click-test.mjs` → 17/17 checks passed.
