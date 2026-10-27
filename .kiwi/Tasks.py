@@ -1,0 +1,34 @@
+# Task tree for physics-lab
+# Update .kiwi/Completed.py as tasks finish. See PLAN.md for full details.
+
+TASKS = [
+    # ---- Phase 0: Foundation ----
+    {"id": "P0-1", "title": "Scaffold Vite + React + TS project, deps installed, build passing", "status": "todo"},
+    {"id": "P0-2", "title": "Write PLAN.md + .kiwi docs (decisions, tasks, codebase map)", "status": "todo"},
+    {"id": "P0-3", "title": "Design tokens: colors, fonts, spacing + SimShell layout shell", "status": "todo"},
+    {"id": "P0-4", "title": "UI kit: Slider, FormulaBar, GraphPanel, ReadoutGroup", "status": "todo"},
+    {"id": "P0-5", "title": "Engine core: vec2.ts, integrator.ts (fixed-dt semi-implicit Euler), forces.ts", "status": "todo"},
+    {"id": "P0-6", "title": "Vitest setup + engine tests vs closed-form physics (projectile range, kinematics, Atwood a/T, incline threshold, friction staircase)", "status": "todo"},
+
+    # ---- Phase 1: MVP sims ----
+    {"id": "P1-1", "title": "Kinematics 1D sim (track, sliders, live x/v/a readouts, x-t & v-t graphs, equation bar)", "status": "todo"},
+    {"id": "P1-2", "title": "Projectile sim (aim + drag, trajectory trace, velocity vectors, drag toggle, range/height/time readouts)", "status": "todo"},
+    {"id": "P1-3", "title": "Friction sim: horizontal (staircase graph, F/f/N/W arrows) + incline (angle of repose)", "status": "todo"},
+    {"id": "P1-4", "title": "Pulley sim: Atwood machine (FBDs, tension) + table-edge variant (pulley + friction)", "status": "todo"},
+    {"id": "P1-5", "title": "Home page topic gallery + routing", "status": "todo"},
+    {"id": "P1-6", "title": "Browser verification pass on all MVP sims (screenshots, slider interactions, play/pause/reset, clean console)", "status": "todo"},
+
+    # ---- Phase 2: remaining topics ----
+    {"id": "P2-1", "title": "2D motion / vector playground", "status": "todo"},
+    {"id": "P2-2", "title": "Circular motion", "status": "todo"},
+    {"id": "P2-3", "title": "Torque", "status": "todo"},
+    {"id": "P2-4", "title": "Rotational motion", "status": "todo"},
+    {"id": "P2-5", "title": "Work-energy-power (roller coaster track)", "status": "todo"},
+    {"id": "P2-6", "title": "Momentum & collisions", "status": "todo"},
+    {"id": "P2-7", "title": "Oscillations: pendulum + spring (SHM)", "status": "todo"},
+
+    # ---- Phase 3: fluids + polish ----
+    {"id": "P3-1", "title": "Fluids: buoyancy, Bernoulli, continuity", "status": "todo"},
+    {"id": "P3-2", "title": "Challenge mode (hit-the-target etc.)", "status": "todo"},
+    {"id": "P3-3", "title": "Deployment: free hosting + verified offline local run", "status": "todo"},
+]

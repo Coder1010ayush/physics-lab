@@ -1,0 +1,71 @@
+# CODEBASE SIMPLIFIED — physics-lab
+
+**Read PLAN.md first** for the full vision, decisions and roadmap.
+
+## Purpose
+Interactive 2D physics simulation website for 12th-grade students: live,
+classroom-presentable sims for mechanics (kinematics, forces, friction, pulleys,
+circular/rotational motion, energy, momentum, oscillations, fluids).
+
+## Stack (and why)
+- **React 19 + Vite 8 + TypeScript 6** — 10+ sims share one UI kit; TS keeps the
+  physics math honest; Vite gives instant dev loop + static build.
+- **oxlint** for linting (template default).
+- **Vitest** (to be added in P0-6) for engine tests against closed-form physics.
+- Static output — host anywhere (GitHub Pages / Netlify), runs offline.
+
+## Structure
+```
+physics-lab/
+  index.html            entrypoint (Vite) — title: physics-lab
+  src/
+    main.tsx              React mount
+    App.tsx / App.css      template demo (to be replaced in P0-3)
+    index.css              global styles (to be replaced by theme tokens)
+    assets/                static assets
+    engine/               PURE physics: no React, no canvas, no DOM imports allowed
+      __tests__/            Vitest tests vs textbook closed-form solutions
+    sims/                per-topic sim modules: state + params + step() (planned)
+    render/              canvas drawing: grid, arrows, trails, FBDs (planned)
+    ui/                  reusable: SimShell, Slider, FormulaBar, GraphPanel, ReadoutGroup (planned)
+    theme/               design tokens: colors, spacing, fonts (planned)
+    pages/               Home (topic gallery) + one page per sim (planned)
+  .kiwi/                project memory: Tasks.py, Completed.py, decisions.md
+  PLAN.md               full project plan
+```
+
+## How to run
+- `npm run dev` — dev server with hot reload.
+- `npm run build` — type-check (tsc -b) + production build to dist/ (must pass clean).
+- `npm run preview` — serve the production build locally.
+- `npm run lint` — oxlint.
+- `npm test` — Vitest (NOT yet configured; arrives in P0-6).
+
+## Key patterns (must follow)
+1. **Engine purity:** `src/engine/**` never imports React or touches the DOM.
+   This is what makes it testable against closed-form physics.
+2. **Sims own state:** each sim module exposes params, `step(dt)`, readouts — no
+   rendering inside sims.
+3. **Render draws:** canvas layer reads sim state and draws. No physics in render.
+4. **Determinism:** fixed-timestep semi-implicit Euler; same inputs must always
+   produce the same trajectory (repeatable in front of a class).
+5. **Formula bar:** every sim shows live equations with real numbers
+   (e.g. F = μmg = 0.5 × 0.3 × 9.8 = 1.47 N).
+6. **SI units everywhere** (m, s, kg, N). Pixel conversion happens only in render.
+
+## How to add a sim (Phase 1+ pattern)
+1. Physics: add/extend pure modules in `src/engine/` + tests in `engine/__tests__/`.
+2. Sim module: `src/sims/<name>/` with state, params, step().
+3. Renderer: `src/render/` drawing helpers for it.
+4. Page: `src/pages/<Name>Page.tsx` using SimShell + UI kit; register route and
+   home-gallery card.
+5. Verify: engine tests + `npm run build` + browser check (screenshots, sliders,
+   play/pause/reset, console clean) before marking complete.
+
+## Pitfalls
+- Importing React inside `src/engine/` — breaks testability (the biggest sin here).
+- Variable-timestep integration — breaks determinism and replays.
+- Math.random in sims — non-replayable; seed it if ever needed.
+- Pixel units leaking into the engine — engine is SI; convert at render layer.
+- Forgetting `timeout_sec` on long terminal commands (npm install etc.) —
+  the CLI default timeout is much shorter than you expect.
