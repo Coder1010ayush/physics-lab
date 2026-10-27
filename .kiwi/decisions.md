@@ -73,3 +73,19 @@ Validated
 
 ### Validation
 Parent reviews content physics + code after subagent report; wired into routes by parent; browser verification of card → detail → sim flow.
+
+## Subtask: Fix — Start button crash on /sim/projectile (user-reported)
+
+### Subtask relevance
+First user-reported bug: clicking Start in the Projectile Lab appeared to do nothing — in reality the whole React tree crashed. Blocking issue for the flagship sim; exposed a verification gap (render-only checks had missed it).
+
+### Implementation
+Root cause: launching at exactly 45°, vx0 = 20·cos45° and vy0 = 20·sin45° differ by 1 ulp (≈2.2e-16). The velocity-components graph got ymin/ymax 1 ulp apart, computed a tick step (5e-16) below the double-precision spacing at 14.14 — so t += step never changed t, the tick loop pushed forever until RangeError: Invalid array length, and React unmounted the tree.
+Fix in two layers: (1) src/ui/graphTicks.ts — pure module exporting niceTicks with a degenerate-range guard (step ≤ 0 or first + step === first → single tick; 1000-iteration cap); (2) GraphPanel normalises near-degenerate (≤1e-9 relative), non-finite or inverted min/max to a ±0.5 window before drawing.
+Also built .kiwi/click-test.mjs — a puppeteer-core real-click smoke test (Start/Pause/landing on both sim pages) so interaction bugs are caught before users are.
+
+### Validation
+8 new niceTicks unit tests including the exact 1-ulp regression input (55/55 total); build + lint 0/0; click test 9/9 PASS with evidence: t advances 0→1.3 s, trail drawn, Pause freezes, landing measures R = 40.8 m (ideal 40.8 m), zero console/page errors. Dev server restarted to clear a stale dependency graph.
+
+### Status
+Validated

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import classes from './GraphPanel.module.css';
+import { niceTicks } from './graphTicks';
 
 export interface GraphSeries {
   label: string;
@@ -14,20 +15,6 @@ export interface GraphPanelProps {
   xLabel?: string;
   yLabel?: string;
   height?: number;
-}
-
-/** Nice tick steps: 1/2/5 × 10^k, so axes never show ugly numbers. */
-function niceTicks(min: number, max: number, count = 4): number[] {
-  if (max === min) return [min];
-  const raw = (max - min) / count;
-  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
-  const norm = raw / mag;
-  const step = (norm >= 5 ? 10 : norm >= 2 ? 5 : norm >= 1 ? 2 : 1) * mag;
-  const ticks: number[] = [];
-  for (let t = Math.ceil(min / step) * step; t <= max + step * 1e-6; t += step) {
-    ticks.push(Number(t.toPrecision(12)));
-  }
-  return ticks;
 }
 
 function fmt(t: number): string {
@@ -96,8 +83,22 @@ export default function GraphPanel({
       ymin = -1;
       ymax = 1;
     }
-    if (xmax === xmin) xmax = xmin + 1;
-    if (ymax === ymin) ymax = ymin + 1;
+    // Near-degenerate ranges — equal, or within a floating-point hair of
+    // each other (e.g. two samples 1 ulp apart) — get a clean ±0.5 window so
+    // the axis stays readable; non-finite or inverted ranges fall back too.
+    const saneRange = (lo: number, hi: number): [number, number] => {
+      if (!Number.isFinite(lo) || !Number.isFinite(hi) || lo > hi) {
+        return [-0.5, 0.5];
+      }
+      if (hi - lo <= Math.abs(lo) * 1e-9) return [lo - 0.5, lo + 0.5];
+      return [lo, hi];
+    };
+    const xSane = saneRange(xmin, xmax);
+    xmin = xSane[0];
+    xmax = xSane[1];
+    const ySane = saneRange(ymin, ymax);
+    ymin = ySane[0];
+    ymax = ySane[1];
     const yPad = (ymax - ymin) * 0.1;
     ymin -= yPad;
     ymax += yPad;

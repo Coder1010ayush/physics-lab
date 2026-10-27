@@ -74,3 +74,10 @@ physics-lab/
 - Pixel units leaking into the engine — engine is SI; convert at render layer.
 - Forgetting `timeout_sec` on long terminal commands (npm install etc.) —
   the CLI default timeout is much shorter than you expect.
+
+## Verification tooling (added 2026-10-27)
+
+- `node .kiwi/click-test.mjs` — real-browser click smoke test (puppeteer-core driving the system Chrome; dev server must be running on :5173). Run it after any change to sim pages, the playbar (SimShell) or GraphPanel. Render-level screenshots cannot catch interaction bugs — this harness exists because a 1-ulp floating-point degenerate range crashed the app on the first real Start click.
+- Pitfall: GraphPanel consumes live series data whose ranges can be degenerate (all-equal values, or two values 1 ulp apart — e.g. vx0 vs vy0 at exactly 45°). Never hand-roll tick loops against raw min/max: route all axis math through `src/ui/graphTicks.ts` (`niceTicks`) and GraphPanel's `saneRange` normalisation.
+- If `npm install` runs while the dev server is up, Vite may re-optimise dependencies and force client reloads (detaching automated-test frames). Restart the dev server before interaction testing.
+- CLI default command timeout is short (~30s): always pass an explicit generous `timeout_sec` for npm/chrome commands.
