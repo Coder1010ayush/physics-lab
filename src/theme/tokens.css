@@ -58,7 +58,7 @@
   /* three voices: interface · math · instrument */
   --font-ui: 'Archivo', system-ui, sans-serif;
   --font-math: 'STIX Two Text', Georgia, serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
 
   /* motion */
   --ease-micro: cubic-bezier(0.2, 0, 0.2, 1);

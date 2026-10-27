@@ -111,7 +111,7 @@ export default function GraphPanel({
     const gridLine = css.getPropertyValue('--grid-line').trim() || 'rgba(26,25,21,0.055)';
     const axisLine = css.getPropertyValue('--ink-line').trim() || 'rgba(26,25,21,0.22)';
 
-    ctx.font = '10.5px "IBM Plex Mono", monospace';
+    ctx.font = '10.5px "JetBrains Mono", monospace';
 
     // horizontal gridlines + y ticks
     ctx.textAlign = 'right';
