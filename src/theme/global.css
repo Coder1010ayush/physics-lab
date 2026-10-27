@@ -150,3 +150,9 @@ a:not(.btn):hover { color: var(--ultramarine-deep); }
     scroll-behavior: auto !important;
   }
 }
+
+/* Wider container for simulation pages (stage + controls need room).
+   Keep `.container` tighter for comfortable reading and notes. */
+.containerWide {
+  max-width: 1200px;
+}

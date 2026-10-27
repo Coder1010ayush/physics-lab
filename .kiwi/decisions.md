@@ -176,3 +176,8 @@ Validated
 - Introduced `--measure: 65ch` token and applied it to paragraph max-width.
 - Reduced global `.container` max width to 980px.
 - TopicDetailPage now centers the reading column (`.pageHead`, `.sections` constrained to `max-width: var(--measure)` with `margin-inline: auto`).
+
+## UI Sprint 5 — Bigger simulation stage (wider container + taller stage)
+
+- Added `.containerWide` (max-width 1200px) for simulation pages and applied it in SimShell.
+- Increased stage minimum height to 360px, and 440px on desktop screens (≥960px).

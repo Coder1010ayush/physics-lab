@@ -36,7 +36,7 @@ export default function SimShell({
   formulas,
 }: SimShellProps) {
   return (
-    <div className="container">
+    <div className="container containerWide">
       <header className={classes.head}>
         <Link to="/" className={classes.back}>
           ← Library
