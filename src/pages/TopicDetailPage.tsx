@@ -6,6 +6,11 @@ import classes from './TopicDetailPage.module.css';
 /**
  * Route component for /topic/:topicId — the classroom page for one topic.
  * Unknown ids redirect home to the library.
+ *
+ * Reading order mirrors how a teacher takes a class through a chapter:
+ * the definition stated first and big (textbook voice), concepts numbered
+ * like board notes, formulas featured centre-stage, then the explanation —
+ * and every page ends pointing at the simulation that makes it move.
  */
 export default function TopicDetailPage() {
   const { topicId } = useParams();
@@ -23,11 +28,14 @@ export default function TopicDetailPage() {
         <Link to="/" className={classes.back} style={{ '--i': 0 } as CSSProperties}>
           ← Library
         </Link>
-        <h1 style={{ '--i': 1 } as CSSProperties}>{content.title}</h1>
-        <p className={classes.tagline} style={{ '--i': 2 } as CSSProperties}>
+        <div style={{ '--i': 1 } as CSSProperties}>
+          <span className="chip chipBrand">Classroom notes</span>
+        </div>
+        <h1 style={{ '--i': 2 } as CSSProperties}>{content.title}</h1>
+        <p className={classes.tagline} style={{ '--i': 3 } as CSSProperties}>
           {content.tagline}
         </p>
-        <div style={{ '--i': 3 } as CSSProperties}>
+        <div style={{ '--i': 4 } as CSSProperties}>
           <Link to={content.simPath ?? '/playground'} className="btn btnPrimary">
             {content.simPath ? 'Open simulation' : 'Open the playground'}
           </Link>
@@ -35,20 +43,28 @@ export default function TopicDetailPage() {
       </header>
 
       <div className={classes.sections}>
-        <section className={classes.card}>
+        {/* Definition — the opening statement, textbook voice, no box */}
+        <section className={classes.definition}>
           <h2 className="caption">Definition</h2>
-          <p className={classes.prose}>{content.definition}</p>
+          <p className={classes.definitionText}>{content.definition}</p>
         </section>
 
+        {/* Key concepts — numbered like board notes */}
         <section className={classes.card}>
           <h2 className="caption">Key concepts</h2>
-          <ul className={classes.concepts}>
-            {content.concepts.map((concept) => (
-              <li key={concept}>{concept}</li>
+          <ol className={classes.concepts}>
+            {content.concepts.map((concept, index) => (
+              <li key={concept}>
+                <span className={classes.conceptNum} aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span>{concept}</span>
+              </li>
             ))}
-          </ul>
+          </ol>
         </section>
 
+        {/* Formulas — featured centre-stage */}
         <section className={classes.card}>
           <h2 className="caption">Formulas</h2>
           <div className={classes.formulaGrid}>
@@ -61,13 +77,25 @@ export default function TopicDetailPage() {
           </div>
         </section>
 
+        {/* Understanding — a lead paragraph, then the rest */}
         <section className={classes.card}>
           <h2 className="caption">Understanding</h2>
           {paragraphs.map((paragraph, index) => (
-            <p key={index} className={classes.prose}>
+            <p key={index} className={index === 0 ? classes.proseLead : classes.prose}>
               {paragraph}
             </p>
           ))}
+        </section>
+
+        {/* Payoff — reading ends where the simulation begins */}
+        <section className={classes.payoff}>
+          <h2 className={classes.payoffTitle}>See it move</h2>
+          <p className={classes.payoffText}>
+            Reading is step one — step two is pushing the sliders and watching the physics answer back.
+          </p>
+          <Link to={content.simPath ?? '/playground'} className="btn btnPrimary">
+            {content.simPath ? 'Open the simulation' : 'Open the playground'}
+          </Link>
         </section>
       </div>
     </div>

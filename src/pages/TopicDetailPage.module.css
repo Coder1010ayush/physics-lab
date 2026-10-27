@@ -1,6 +1,8 @@
 /* ── TopicDetailPage — one topic's classroom page ──
    Cards: chalk-lift + --e2, no border (design rule: never mix the two).
-   Nested formula chips sit on the sunk surface, as in FormulaBar. */
+   The definition breaks out of the card system on purpose: it is the
+   chapter's opening statement, set in the textbook serif with an
+   ultramarine rule, so the page reads like a book, not a stack of widgets. */
 
 .pageHead {
   display: grid;
@@ -33,7 +35,7 @@
 
 .sections {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-6);
   padding-block: var(--s-5) var(--s-7);
   border-top: 1px solid var(--ink-hair);
 }
@@ -42,24 +44,35 @@
   background: var(--chalk-lift);
   border-radius: var(--r-md);
   box-shadow: var(--e2);
-  padding: var(--s-4);
+  padding: var(--s-5) var(--s-4);
 }
 
 .card > h2 {
   margin: 0 0 var(--s-3);
 }
 
-.prose {
+/* definition — hero statement, textbook voice */
+
+.definition {
+  max-width: 62ch;
+}
+
+.definition > h2 {
+  margin: 0 0 var(--s-3);
+}
+
+.definitionText {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.65;
+  padding-inline-start: var(--s-4);
+  border-inline-start: 3px solid var(--ultramarine);
+  font-family: var(--font-math);
+  font-size: 1.3rem;
+  line-height: 1.62;
+  color: var(--ink);
+  max-width: 42ch;
 }
 
-.prose + .prose {
-  margin-top: var(--s-3);
-}
-
-/* key concepts — ultramarine dot markers */
+/* key concepts — numbered board notes */
 
 .concepts {
   list-style: none;
@@ -71,23 +84,22 @@
 }
 
 .concepts li {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
   gap: var(--s-3);
+  align-items: baseline;
   line-height: 1.55;
 }
 
-.concepts li::before {
-  content: '';
-  flex: none;
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: var(--r-full);
-  background: var(--ultramarine);
-  margin-top: 0.55em;
+.conceptNum {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ultramarine);
 }
 
-/* formulas — chips on the sunk surface, allowed to wrap */
+/* formulas — featured centre-stage on the sunk surface */
 
 .formulaGrid {
   display: grid;
@@ -98,17 +110,80 @@
 .formulaCard {
   background: var(--chalk-sunk);
   border-radius: var(--r-sm);
-  padding: var(--s-3) var(--s-4);
+  padding: var(--s-4) var(--s-3);
   display: grid;
   gap: var(--s-2);
-  align-content: start;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.formulaCard .caption {
+  color: var(--ink-faint);
 }
 
 .formula {
   font-family: var(--font-math);
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   line-height: 1.5;
   color: var(--ink);
   overflow-wrap: break-word;
+}
+
+/* understanding — lead paragraph then body text */
+
+.proseLead {
+  margin: 0 0 var(--s-3);
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 70ch;
+}
+
+.prose {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+
+.prose + .prose {
+  margin-top: var(--s-3);
+}
+
+/* payoff — the bridge from reading to simulating */
+
+.payoff {
+  background: var(--ultramarine-wash);
+  border-radius: var(--r-md);
+  padding: var(--s-6) var(--s-4);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--s-3);
+}
+
+.payoffTitle {
+  margin: 0;
+  font-size: var(--step-1);
+  letter-spacing: -0.01em;
+}
+
+.payoffText {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .definitionText {
+    font-size: 1.15rem;
+  }
+
+  .card {
+    padding: var(--s-4) var(--s-3);
+  }
 }
