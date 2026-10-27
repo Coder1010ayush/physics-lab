@@ -5,7 +5,7 @@
  */
 import puppeteer from 'puppeteer-core';
 
-const BASE = 'http://localhost:5173';
+const BASE = process.env.BASE_URL ?? 'http://localhost:5173';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function readState(page) {
