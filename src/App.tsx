@@ -9,6 +9,7 @@ import TopicDetailPage from './pages/TopicDetailPage';
 import classes from './App.module.css';
 
 const PROJECTOR_STORAGE_KEY = 'physicslab_ui_projector';
+const THEME_STORAGE_KEY = 'physicslab_ui_theme';
 
 export default function App() {
   const [projectorMode, setProjectorMode] = useState(() => {
@@ -19,6 +20,19 @@ export default function App() {
     }
   });
 
+  // Theme preference (manual toggle). Projector mode forces light, but we keep
+  // the user's preference for when projector mode is turned off.
+  const [darkPref, setDarkPref] = useState(() => {
+    try {
+      return window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark';
+    } catch {
+      return false;
+    }
+  });
+
+  const darkEffective = darkPref && !projectorMode;
+
+
   useEffect(() => {
     if (projectorMode) document.documentElement.dataset.ui = 'projector';
     else delete document.documentElement.dataset.ui;
@@ -28,6 +42,17 @@ export default function App() {
       // ignore storage failures
     }
   }, [projectorMode]);
+
+  useEffect(() => {
+    if (darkEffective) document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, darkPref ? 'dark' : 'light');
+    } catch {
+      // ignore storage failures
+    }
+  }, [darkEffective, darkPref]);
+
 
   return (
     <HashRouter>
@@ -65,6 +90,21 @@ export default function App() {
             >
               <ProjectorIcon />
               Projector
+            </button>
+            <button
+              type="button"
+              className={darkEffective ? classes.themeActive : classes.themeBtn}
+              aria-pressed={darkEffective}
+              onClick={() => setDarkPref((v) => !v)}
+              disabled={projectorMode}
+              title={
+                projectorMode
+                  ? 'Dark theme is disabled in projector mode'
+                  : 'Toggle dark theme'
+              }
+            >
+              <MoonIcon />
+              Dark
             </button>
           </div>
         </nav>
@@ -110,6 +150,25 @@ function ProjectorIcon() {
       <path d="M5.2 12h3.6" />
       <circle cx="4.6" cy="7.6" r="0.7" fill="currentColor" stroke="none" />
       <circle cx="9.4" cy="7.6" r="0.7" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+
+function MoonIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9.7 9.5c-3.2 0-5.7-2.6-5.7-5.7 0-0.9 0.2-1.7 0.6-2.5C3.1 2.2 2.2 3.8 2.2 5.6c0 3.3 2.7 6 6 6 1.8 0 3.4-0.9 4.3-2.4-0.8 0.4-1.7 0.3-2.8 0.3Z" />
     </svg>
   );
 }

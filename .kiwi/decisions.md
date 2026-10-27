@@ -157,3 +157,10 @@ Validated
 - FormulaBar wraps in projector mode (no horizontal scroll).
 - Projectile velocity-components graph uses velocity color for both vx/vy; vy is dashed.
 - Tuned light-mode `--vec-*` tokens for projector contrast.
+
+## UI Sprint 2 — Dark theme (chalkboard) + top-bar toggle (forced Light in Projector mode)
+
+- Added top-bar Dark toggle persisted in localStorage.
+- Dark theme applied via `data-theme='dark'` on `<html>`.
+- Projector mode forces Light (Dark toggle disabled while projector is on).
+- Top bar background now uses `--topbar-bg` token so it adapts to light/dark.

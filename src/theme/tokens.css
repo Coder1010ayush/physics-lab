@@ -8,6 +8,8 @@
   --chalk-sunk: #ECEAE2;
   --chalk-lift: #FCFBF8;
 
+  --topbar-bg: rgba(247, 246, 241, 0.86);
+
   /* ink — never pure black */
   --ink: #1A1915;
   --ink-soft: #57544B;
@@ -67,4 +69,50 @@
 
   /* graph paper (signature atmosphere) */
   --grid-line: rgba(26, 25, 21, 0.055);
+}
+
+
+/* ── Dark theme: Chalkboard ───────────────────────────────────────────
+   Green-black ground, warm chalk text, same ultramarine accent family.
+   Enabled via <html data-theme="dark">. */
+:root[data-theme='dark'] {
+  /* ground */
+  --chalk: #0F1411;
+  --chalk-sunk: #141B16;
+  --chalk-lift: #1B241D;
+
+  --topbar-bg: rgba(15, 20, 17, 0.86);
+
+  /* ink */
+  --ink: #ECE7DC;
+  --ink-soft: rgba(236, 231, 220, 0.82);
+  --ink-faint: rgba(236, 231, 220, 0.62);
+  --ink-hair: rgba(236, 231, 220, 0.10);
+  --ink-line: rgba(236, 231, 220, 0.22);
+
+  /* brand */
+  --ultramarine: #8EA2FF;
+  --ultramarine-deep: #6F86FF;
+  --ultramarine-wash: rgba(142, 162, 255, 0.14);
+
+  /* semantic quantity colors (projector-safe, not neon) */
+  --vec-velocity: #4CB7D6;
+  --vec-acceleration: #F08A4B;
+  --vec-force: #F06B6B;
+  --vec-friction: #C4B5FD;
+  --vec-tension: #6EE7B7;
+  --vec-structural: rgba(236, 231, 220, 0.72);
+
+  /* states */
+  --ok: #6EE7B7;
+  --warn: #FBBF24;
+  --bad: #F87171;
+
+  /* depth (keep shadows subtle to avoid glow-on-dark) */
+  --e1: 0 1px 2px rgba(0, 0, 0, 0.20);
+  --e2: 0 1px 2px rgba(0, 0, 0, 0.28), 0 10px 24px rgba(0, 0, 0, 0.34);
+  --e3: 0 2px 4px rgba(0, 0, 0, 0.32), 0 18px 44px rgba(0, 0, 0, 0.42);
+
+  /* graph paper */
+  --grid-line: rgba(236, 231, 220, 0.055);
 }

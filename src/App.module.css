@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(247, 246, 241, 0.86);
+  background: var(--topbar-bg);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--ink-hair);
 }
@@ -79,6 +79,52 @@
   outline: 2px solid var(--ultramarine);
   outline-offset: 2px;
 }
+
+.themeBtn,
+ .themeActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.7rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--ink-hair);
+  background: var(--chalk-lift);
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: 700 0.82rem var(--font-ui);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background-color 120ms var(--ease-micro), color 120ms var(--ease-micro), transform 120ms var(--ease-micro), opacity 120ms var(--ease-micro);
+}
+
+.themeBtn:hover {
+  background: var(--chalk-sunk);
+  color: var(--ink);
+}
+
+.themeBtn:active,
+ .themeActive:active {
+  transform: translateY(1px);
+}
+
+.themeActive {
+  background: var(--ultramarine-wash);
+  color: var(--ultramarine);
+  border-color: rgba(43, 63, 168, 0.22);
+}
+
+.themeBtn:disabled,
+ .themeActive:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.themeBtn:focus-visible,
+ .themeActive:focus-visible {
+  outline: 2px solid var(--ultramarine);
+  outline-offset: 2px;
+}
+
 
 
 
