@@ -136,3 +136,35 @@ See `.kiwi/Tasks.py` for the task tree with IDs. Summary:
 2. **Phase 1 — MVP sims:** kinematics → projectile → friction → pulley, each verified in the browser before the next.
 3. **Phase 2 — remaining topics** (teacher review after Phase 1).
 4. **Phase 3 — fluids, challenge mode, deployment.**
+
+## 11. Progress Log (updated 2026-10-27)
+
+**Done and live:**
+- Phase 0 complete: scaffold, Chalk & Ultramarine design system, UI kit
+  (SimShell/Slider/GraphPanel/ReadoutGroup/FormulaBar), pure engine
+  (Vec2, integrator, forces) — all tested against closed-form physics.
+- P1-0 GitHub + Vercel: repo public, auto-deploy on push,
+  https://physics-lab-topaz.vercel.app.
+- P1-2 Projectile Lab: drag-aim, vx/vy vectors, air drag, Moon gravity,
+  ideal-path ghost, measured R/H/T vs formulas.
+- Topic detail pages (all 11): definition → concepts → formulas →
+  understanding → CTA, later redesigned (hero definition, numbered
+  concepts, featured formulas, 'See it move' payoff panel).
+- P1-1 Kinematics Lab: car on auto-zooming track, live equations of motion,
+  turning-point detection (verified: braking car rests at exactly t = u/|a|).
+- P1-3 Friction Lab: push-ramp staircase force graph + incline with
+  angle-of-repose marker (verified: breakaway at μs·N = 24.5 N, rest/slide
+  across atan μs).
+- Quality infrastructure: 73 physics tests; 17-check real-browser
+  click-test (runs against localhost AND production); fix for the 1-ulp
+  graph crash found by the first real user click; CTA hover contrast fix.
+- Font swap: JetBrains Mono (self-hosted Fontsource) is the instrument font
+  for all numbers/readouts/ticks; Archivo stays for prose, STIX Two Text
+  for definitions/formulas (user decision 2026-10-27).
+
+**Next:**
+- P1-4 Force & Pulley (Atwood + table-edge variant, live tension, FBDs) —
+  the last of the three must-have MVP sims.
+- P1-5 library cards all live; then Phase 2 topics (circular, torque,
+  rotational, work-energy, momentum, oscillations) and Phase 3
+  (fluids, challenge mode, hosting polish).

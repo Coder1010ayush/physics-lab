@@ -135,3 +135,17 @@ Redesign: build ✓ lint 0/0, desktop OCR confirms all sections render, mobile o
 
 ### Status
 Validated
+
+## Subtask: Font swap — JetBrains Mono as the instrument font (user decision)
+
+### Subtask relevance
+User requested JetBrains Mono for the frontend. Clarified scope via ask_human: user chose 'Numbers + captions only' — replace IBM Plex Mono, keep Archivo (prose/UI) and STIX Two Text (definitions/formulas) so the praised textbook character stays intact.
+
+### Implementation
+npm install @fontsource/jetbrains-mono (self-hosted, offline-safe, no CDN), npm uninstall @fontsource/ibm-plex-mono. Edits: src/index.css fontsource imports + header comment; src/theme/tokens.css --font-mono; src/ui/GraphPanel.tsx hardcoded canvas font string (canvas cannot use CSS vars — legitimate hardcode, keep in sync with tokens). --font-mono consumers verified: ReadoutGroup values, Slider values, SimShell playbar/time chips, FormulaBar numbers, TopicDetail concept numerals, stage tick labels on all sim pages — the full 'instrument' layer.
+
+### Validation
+Build ✓ lint 0/0, 73/73 tests. Live production font check via puppeteer document.fonts: JetBrains Mono 400 + 600 loaded, 12 active font faces, zero IBM Plex faces remaining. (First dev-server check showed a stale plexGone flag — HMR artifact; the fresh production check is authoritative.)
+
+### Status
+Validated

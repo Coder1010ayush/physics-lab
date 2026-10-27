@@ -1,92 +1,153 @@
 # CODEBASE SIMPLIFIED — physics-lab
 
-**Read PLAN.md first** for the full vision, decisions and roadmap.
+**Read PLAN.md first** for the full vision, decisions and roadmap. README.md
+is the public-facing version of this file.
 
 ## Purpose
 Interactive 2D physics simulation website for 12th-grade students: live,
-classroom-presentable sims for mechanics (kinematics, forces, friction, pulleys,
-circular/rotational motion, energy, momentum, oscillations, fluids).
+classroom-presentable sims for mechanics (kinematics, forces, friction,
+pulleys, circular/rotational motion, energy, momentum, oscillations, fluids).
+
+**Current state:** 3 sims live (projectile, kinematics, friction), 11 topic
+notes pages, deployed at https://physics-lab-topaz.vercel.app.
 
 ## Stack (and why)
-- **React 19 + Vite 8 + TypeScript 6** — 10+ sims share one UI kit; TS keeps the
-  physics math honest; Vite gives instant dev loop + static build.
-- **oxlint** for linting (template default).
-- **Vitest** (to be added in P0-6) for engine tests against closed-form physics.
-- Static output — host anywhere (GitHub Pages / Netlify), runs offline.
+- **React 19 + Vite 8 + TypeScript 6** — 10+ sims share one UI kit; TS keeps
+  the physics math honest; Vite gives instant dev loop + static build.
+- **oxlint** for linting — 0-warning policy.
+- **Vitest** — 73 physics tests in 8 files (engine closed-form tests + sim
+  behaviour tests).
+- **Vercel** — auto-deploys every push to `master`.
+- Fonts via Fontsource (self-hosted, offline-safe): Archivo (interface),
+  STIX Two Text (definitions/formulas), **JetBrains Mono** (instrument font:
+  readout values, slider values, playbar time, formula-bar numbers, stage
+  ticks — swapped in for IBM Plex Mono on 2026-10-27).
 
 ## Structure
 ```
 physics-lab/
   index.html            entrypoint (Vite) — title: physics-lab
+  README.md             public-facing docs: setup, scripts, conventions, deployment
+  PLAN.md               full project plan + progress log
   src/
     main.tsx              React mount
-    App.tsx                router shell + nav + footer (HashRouter)
-    index.css              fontsource imports + theme/tokens.css + theme/global.css
-    assets/                static assets
+    App.tsx               HashRouter: / /playground /topic/:id /sim/{projectile,kinematics,friction}
+    index.css            fontsource imports + theme/tokens.css + theme/global.css
     engine/               PURE physics: no React, no canvas, no DOM imports allowed
       vec2.ts               2D vector algebra (immutable Vec2)
       integrator.ts         semiImplicitEuler + FixedStepClock (deterministic)
       forces.ts             gravity/incline/friction/drag/atwood closed forms
-      __tests__/            Vitest tests vs textbook closed-form solutions (37)
-    sims/                per-topic sim modules: state + params + step() (Phase 1)
-    render/              canvas drawing: grid, arrows, trails, FBDs (Phase 1)
-    ui/                  reusable: SimShell, Slider, FormulaBar, GraphPanel, ReadoutGroup
-    theme/               design tokens (Chalk & Ultramarine): tokens.css, global.css
-    content/             topics.ts: TOPIC_CONTENT — per-topic definition, concepts, textbook formulas
-    pages/               HomePage (library), TopicDetailPage (classroom content),
-                         PlaygroundPage (kit demo), ProjectilePage (2D motion),
-                         KinematicsPage (1D motion, /sim/kinematics),
-                         FrictionPage (stick/slide, /sim/friction)
-  .kiwi/                project memory: Tasks.py, Completed.py, decisions.md
-  PLAN.md               full project plan
+      __tests__/            Vitest vs textbook closed-form solutions
+    sims/                per-topic sim CLASSES (flat files, no React imports)
+      projectile.ts         aim/fire lifecycle, drag, Moon gravity, samples
+      kinematics.ts         u/a params, turning-point math, auto-done at 30 s
+      friction.ts           two modes: push-ramp staircase + incline/repose
+      __tests__/            sim behaviour tests (thresholds, determinism, lifecycle)
+    ui/                  reusable kit: SimShell (stage/playbar/controls/graphs
+                         layout), Slider, FormulaBar, GraphPanel (canvas,
+                         graphTicks-guarded axes), ReadoutGroup
+    theme/               tokens.css (Chalk & Ultramarine design system),
+                         global.css (chips, buttons, captions, animations)
+    content/topics.ts    TOPIC_CONTENT — 11 topics: definition, concepts,
+                         formulas, explanation, optional simPath
+    pages/
+      HomePage.tsx         hero + topic library (cards → topic pages)
+      TopicDetailPage.tsx  classroom notes: hero definition (STIX serif +
+                           ultramarine rule), numbered concepts, featured
+                           formulas, lead paragraph, 'See it move' payoff panel
+      PlaygroundPage.tsx   UI-kit demo (live oscillator)
+      ProjectilePage.tsx   2D motion — drag-aim, vx/vy vectors, ideal ghost
+      KinematicsPage.tsx   1D motion — auto-zoom track, car, live equations
+      FrictionPage.tsx     stick/slide — two SVG stages, staircase graph
+  .kiwi/
+    Tasks.py             task tree (roadmap)
+    Completed.py         completed task IDs
+    decisions.md         per-subtask build decisions + validation evidence
+    click-test.mjs       17 real-browser interaction checks (see below)
+    screenshots/         verified-state screenshots
 ```
 
 ## How to run
-- `npm run dev` — dev server with hot reload.
+- `npm run dev` — dev server with hot reload (port 5173).
 - `npm run build` — type-check (tsc -b) + production build to dist/ (must pass clean).
 - `npm run preview` — serve the production build locally.
-- `npm run lint` — oxlint.
-- `npm test` — Vitest engine suite: 37 tests vs closed-form physics.
+- `npm run lint` — oxlint (must be 0 warnings, 0 errors).
+- `npm test` — Vitest: 73 tests, all must pass.
+- `node .kiwi/click-test.mjs` — 17 real-browser interaction checks
+  (dev server must be running; `BASE_URL=…` overrides to test production).
 
 ## Key patterns (must follow)
 1. **Engine purity:** `src/engine/**` never imports React or touches the DOM.
-   This is what makes it testable against closed-form physics.
-2. **Sims own state:** each sim module exposes params, `step(dt)`, readouts — no
-   rendering inside sims.
-3. **Render draws:** canvas layer reads sim state and draws. No physics in render.
-4. **Determinism:** fixed-timestep semi-implicit Euler; same inputs must always
-   produce the same trajectory (repeatable in front of a class).
-5. **Formula bar:** every sim shows live equations with real numbers
-   (e.g. F = μmg = 0.5 × 0.3 × 9.8 = 1.47 N).
-6. **SI units everywhere** (m, s, kg, N). Pixel conversion happens only in render.
+2. **Sims own state:** class with phases `'ready' | 'running' | 'done'`,
+   `start()/step(dt)/update(params)/getSnapshot()/getPhase()`; 30 Hz sample
+   arrays for graphs; no rendering inside sims; no React imports in `src/sims/`.
+3. **Pages mirror the gold-standard loop** (KinematicsPage/ProjectilePage):
+   `FixedStepClock(1/240, 12)` + rAF loop, refs mirrors (never read refs
+   during render), 30 Hz `publish`, auto-pause on `'done'`, slider change →
+   `sim.update` + pause (re-arms).
+4. **Stages are inline SVG** in the page module (arrows via `<marker>` defs,
+   index-based distance ticks with a guaranteed ≥10 m view span);
+   graphs are the canvas GraphPanel.
+5. **Determinism:** fixed-timestep semi-implicit Euler; same inputs always
+   produce the same run. No `Math.random`, no `Date.now` in engine or sims.
+6. **Formula bar:** every sim shows live equations with real substituted
+   numbers at 2 decimals (e.g. `v = 5.00 + (−1.00) × 5.81 = −0.81 m/s`).
+7. **SI units everywhere** (m, s, kg, N). Pixel conversion only in stages.
+8. **Reuse engine helpers** (`forces.ts`) instead of re-deriving g·sinθ etc.
+   in sims.
 
-## How to add a sim (Phase 1+ pattern)
-1. Physics: add/extend pure modules in `src/engine/` + tests in `engine/__tests__/`.
-2. Sim module: `src/sims/<name>/` with state, params, step().
-3. Renderer: `src/render/` drawing helpers for it.
-4. Page: `src/pages/<Name>Page.tsx` using SimShell + UI kit; register route and
-   home-gallery card.
-5. Verify: engine tests + `npm run build` + browser check (screenshots, sliders,
-   play/pause/reset, console clean) before marking complete.
+## How to add a sim (the proven pipeline)
+1. Pure physics in `src/engine/` + closed-form tests.
+2. Sim class `src/sims/<name>.ts` (pattern above) + behaviour tests in
+   `src/sims/__tests__/` (thresholds vs textbook values, determinism,
+   lifecycle guards).
+3. Page `src/pages/<Name>Page.tsx` + `<Name>Page.module.css` — mirror the
+   sibling pages' structure exactly; tokens only.
+4. Wire: route in `App.tsx`, library card in `HomePage.tsx` (status → 'live'),
+   `simPath` in `src/content/topics.ts` for the topic CTA.
+5. Extend `.kiwi/click-test.mjs` with physics checks for this sim
+   (assert on readouts/values that EXIST in that UI state — see pitfalls).
+6. Verify before 'done': tests → build → lint → click-test (local AND
+   production) → screenshot + OCR the physics numbers → push (auto-deploy).
 
 ## Pitfalls
 - Importing React inside `src/engine/` — breaks testability (the biggest sin here).
 - Variable-timestep integration — breaks determinism and replays.
-- Math.random in sims — non-replayable; seed it if ever needed.
-- Pixel units leaking into the engine — engine is SI; convert at render layer.
-- Forgetting `timeout_sec` on long terminal commands (npm install etc.) —
-  the CLI default timeout is much shorter than you expect.
+- `Math.random`/`Date.now` in sims — non-replayable.
+- Pixel units leaking into the engine — engine is SI; convert in stages.
+- **Axis math:** GraphPanel consumes live series whose ranges can be
+  degenerate (all-equal values, or two values 1 ulp apart — e.g. vx0 vs vy0
+  at exactly 45°). Never hand-roll tick loops against raw min/max: route all
+  axis math through `src/ui/graphTicks.ts` (`niceTicks` + the 1-ulp guard)
+  and GraphPanel's `saneRange`. Stage tick loops must be index-based
+  (integer i, `i * step`) with a guaranteed minimum span.
+- **CTAs that are links:** global `a:hover` color rules outrank component
+  classes — scope plain-link colors with `a:not(.btn)` or CTA text vanishes
+  on hover/press.
+- **Interaction tests:** assert on readouts that actually exist in the UI
+  state under test (e.g. friction's status chip is horizontal-mode-only);
+  the full 17-check suite takes ~45 s — pass an explicit `timeout_sec`.
+- Forgetting `timeout_sec` on long terminal commands — the CLI default
+  timeout is ~30 s.
+- If `npm install` runs while the dev server is up, Vite re-optimises and
+  detaches automated-test frames — restart the dev server before testing.
 
-## Verification tooling (added 2026-10-27)
+## Verification tooling
 
-- `node .kiwi/click-test.mjs` — real-browser click smoke test (puppeteer-core driving the system Chrome; dev server must be running on :5173). Run it after any change to sim pages, the playbar (SimShell) or GraphPanel. Render-level screenshots cannot catch interaction bugs — this harness exists because a 1-ulp floating-point degenerate range crashed the app on the first real Start click.
-- Pitfall: GraphPanel consumes live series data whose ranges can be degenerate (all-equal values, or two values 1 ulp apart — e.g. vx0 vs vy0 at exactly 45°). Never hand-roll tick loops against raw min/max: route all axis math through `src/ui/graphTicks.ts` (`niceTicks`) and GraphPanel's `saneRange` normalisation.
-- If `npm install` runs while the dev server is up, Vite may re-optimise dependencies and force client reloads (detaching automated-test frames). Restart the dev server before interaction testing.
-- CLI default command timeout is short (~30s): always pass an explicit generous `timeout_sec` for npm/chrome commands.
+- `node .kiwi/click-test.mjs` — puppeteer-core driving system Chrome: 17
+  checks across projectile (Start/Pause/landing R = ideal), kinematics
+  (braking car rests at exactly t = u/|a|), friction (stick → breakaway at
+  μs·N; incline rest/slide across the repose angle) and the playground —
+  plus console/page-error cleanliness on every page. Run it after any change
+  to sim pages, SimShell or GraphPanel. Render-level screenshots cannot
+  catch interaction bugs — this harness exists because a 1-ulp degenerate
+  range crashed the app on the first real Start click.
 
-## Deployment (2026-10-27)
+## Deployment
 
 - Live site: https://physics-lab-topaz.vercel.app
-- Repo: https://github.com/Coder1010ayush/physics-lab (public, master → origin)
-- Deploy: `git push` (repo connected — every push to master auto-builds and updates the live URL) or manually: `vercel deploy --prod --yes`
-- Verify a deployment end-to-end: `BASE_URL=https://physics-lab-topaz.vercel.app node .kiwi/click-test.mjs`
+- Repo: https://github.com/Coder1010ayush/physics-lab (public, `master` → origin)
+- Deploy: push to `master` (auto-builds, ~1 min) or `vercel deploy --prod --yes`.
+- Verify a deployment: `BASE_URL=https://physics-lab-topaz.vercel.app
+  node .kiwi/click-test.mjs` (17 checks against production).
+- Static build, no backend/env/secret; also runs offline from the laptop.
