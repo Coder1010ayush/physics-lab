@@ -161,6 +161,82 @@ try {
     await page.close();
   }
 
+  /* ── Friction page — stick/slide threshold physics ── */
+  {
+    const page = await browser.newPage();
+    const logs = [];
+    page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
+    page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
+    await page.goto(`${BASE}/#/sim/friction`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.body.textContent.includes('Push on flat ground'));
+
+    const loaded = await readState(page);
+    report(
+      'friction loads with Start button',
+      loaded.buttons.some((b) => b.includes('Start')),
+      `t = ${loaded.t}`,
+    );
+
+    // HORIZONTAL: defaults m = 5 kg, μs = 0.5 → limit μs·N = 24.5 N.
+    // Ramp 3 N/s must hold the block stuck until t ≈ 8.17 s, then it breaks loose.
+    await clickButton(page, 'Start');
+    const stickEarly = await page.evaluate(() => /status\s*sticking/.test(document.body.textContent));
+    const sliding = await page
+      .waitForFunction(() => /status\s*sliding/.test(document.body.textContent), { timeout: 13000 })
+      .then(() => true)
+      .catch(() => false);
+    report(
+      'block sticks, then breaks loose past μs·N = 24.5 N (~8.2 s)',
+      stickEarly && sliding,
+      `stuck at start: ${stickEarly}; sliding appeared: ${sliding}`,
+    );
+
+    // INCLINE below repose: θ = 20° < repose atan(0.5) ≈ 26.57° → stays at rest.
+    await clickButton(page, 'Slide down a ramp');
+    await sleep(250);
+    await clickButton(page, 'Start');
+    await sleep(3000);
+    const stuckX = await page.evaluate(() => {
+      const m = /position x\s*(-?[\d.]+)\s*m/.exec(document.body.textContent);
+      return m ? parseFloat(m[1]) : NaN;
+    });
+    report(
+      'incline below repose (20° < 26.6°) — block stays at rest',
+      Number.isFinite(stuckX) && Math.abs(stuckX) < 0.01,
+      `position x = ${stuckX} m after 3 s`,
+    );
+
+    // INCLINE past repose: θ = 35° > 26.57° → the block lets go (a ≈ 3.2 m/s²).
+    await page.evaluate(() => {
+      const inputs = [...document.querySelectorAll('input[type="range"]')];
+      const theta = inputs[3];
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      setter.call(theta, '35');
+      theta.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await sleep(250);
+    await clickButton(page, 'Start');
+    const slid = await page
+      .waitForFunction(
+        () => {
+          const m = /position x\s*(-?[\d.]+)\s*m/.exec(document.body.textContent);
+          return m ? parseFloat(m[1]) > 1 : false;
+        },
+        { timeout: 8000 },
+      )
+      .then(() => true)
+      .catch(() => false);
+    report('incline past repose (35° > 26.6°) — block lets go', slid, 'position readout grew past 1 m');
+
+    const errs = logs.filter((l) => l.startsWith('[error]') || l.startsWith('[pageerror]'));
+    report(
+      'friction no console/page errors',
+      errs.length === 0,
+      errs.join(' ; ') || 'clean',
+    );
+    await page.close();
+  }
+
   /* ── Playground page ── */
   {
     const page = await browser.newPage();

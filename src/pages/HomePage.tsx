@@ -20,9 +20,9 @@ const TOPICS: Topic[] = [
   },
   {
     id: 'friction',
-    desc: 'Static vs kinetic friction on flat ground and on ramps — including the famous staircase graph and the angle of repose.',
+    desc: 'Static vs kinetic friction — push until the block breaks loose, or tilt a ramp past the angle of repose and watch it let go.',
     title: 'Friction',
-    status: 'now',
+    status: 'live',
     icon: <IconFriction />,
   },
   {
@@ -138,7 +138,7 @@ export default function HomePage() {
       <section id="topics" className={classes.library}>
         <h2>The simulation library</h2>
         <p className={classes.libraryNote}>
-          The Kinematics and Projectile labs are live — friction and pulley follow next.
+          The Kinematics, Projectile and Friction labs are live — the pulley follows next.
           Open any card for definitions, concepts and formulas.
         </p>
         <div className={classes.grid}>

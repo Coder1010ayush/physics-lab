@@ -86,6 +86,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     ],
     explanation:
       'The angle of repose follows from the balance of forces along an incline at the moment slipping just begins: the component of weight down the slope equals maximum static friction, which cancels to tan θ = μ_s. Tilt the plane a hair further and the block slides.\n\nOnce sliding, the component of weight along the plane outmuscles kinetic friction, and the leftover force per unit mass gives the acceleration formula above. Try it in numbers: with a coefficient of kinetic friction of 0.25 on a 30° incline, the acceleration is about 2.8 m/s².',
+    simPath: '/sim/friction',
   },
 
   /* ── pulley ─────────────────────────────────────────────────────────── */

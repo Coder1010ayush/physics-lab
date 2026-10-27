@@ -119,3 +119,19 @@ Subagent (Autocode) built 4 files mirroring the projectile gold-standard: src/si
 
 ### Status
 Validated
+
+## Subtask: P1-3 — Friction simulation (both modes) + topic-page typography redesign
+
+### Subtask relevance
+Second MVP sim (user's must-have list): static vs kinetic friction — the staircase force graph on flat ground, and the angle-of-repose demo on an incline. Plus a user-requested typography redesign of all topic pages ("text looks like someone just put it there").
+
+### Implementation
+Friction sim built by subagent (4 files, kinematics pattern): src/sims/friction.ts (FrictionSim, two modes: horizontal push-ramp 3 N/s to 60 N with static-match/μs·N breakaway/kinetic regime + re-stick branch; incline with willSlide/slideAcceleration from the tested engine helpers — nothing re-derived), 10 unit tests, FrictionPage (segmented mode toggle, hatched-ground + incline-triangle stages with full force-vector sets incl. mg components and the repose ray, staircase Forces-vs-time GraphPanel, mode-specific readouts + FormulaBars). Parent wired: /sim/friction route, HomePage card → live, topics.ts friction simPath, click-test physics section.
+Topic redesign (parent, commit a3f3ca6): TopicDetailPage restructured — definition as hero statement (textbook serif, ultramarine rule, no card), numbered concepts (01/02…), featured centered formulas, lead paragraph, and a 'See it move' payoff panel ending every topic at the sim.
+
+### Validation
+Friction: 73/73 unit tests; parent hand-reviewed friction.ts physics (stick threshold, re-stick behaviour incl. stick-slip edge cases). Build ✓ lint 0/0. Click-test 17/17 on localhost AND live production, incl. end-to-end threshold physics: block holds while F ramps, breaks loose past μs·N = 24.5 N at ~8.2 s; incline 20° (< repose 26.57°) → position stays exactly 0 m after 3 s; incline 35° → slides. Screenshots OCR-verified with closed-form math: a = 9.8(sin35° − 0.3·cos35°) = 3.21 m/s² ✓, f = μk·mg·cos35° = 12.04 N ✓, v = at ✓, x = ½at² ✓. One test-harness fix during integration (incline has no status readout → assert on position x; plus the suite outgrew the 30 s command timeout).
+Redesign: build ✓ lint 0/0, desktop OCR confirms all sections render, mobile overflow check scrollW == clientW at 390 px ✓.
+
+### Status
+Validated
