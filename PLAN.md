@@ -1,6 +1,6 @@
 # Physics Lab — Complete Idea & Plan (v1.0)
 
-**Prepared:** 2026-10-27 · **Last updated:** 2026-10-27 · **Status:** Phase 2 underway — circular motion lab live (all three modes)
+**Prepared:** 2026-10-27 · **Last updated:** 2026-10-28 · **Status:** Phase 2 underway — circular motion lab live (all three modes)
 
 ## 1. The Idea
 
@@ -86,14 +86,20 @@ physics-lab/
     engine/        pure TypeScript physics — no React, no canvas, just math
       vec2.ts        2D vector algebra
       integrator.ts  fixed-timestep semi-implicit Euler (deterministic, repeatable)
-      forces.ts      gravity, normal, static/kinetic friction, drag, rope tension
+      forces.ts      gravity, normal, static/kinetic friction, drag, rope tension, Atwood
+      circular.ts    UCM quartet, loop-the-loop, min speeds √(gr)/√(5gr), banked trio
       __tests__/     unit tests verified against textbook closed-form solutions
-    sims/          per-topic state and step(): kinematics/, projectile/, friction/, pulley/
-    render/        canvas layer: grid, arrows, trails, free-body diagrams
+    sims/          one flat file per topic: projectile, kinematics, friction,
+                   pulley, circular (+ __tests__/ sim behaviour tests)
     ui/            reusable: Slider, FormulaBar, GraphPanel, ReadoutGroup, SimShell
     theme/         design tokens (colors, spacing, fonts)
-    pages/         Home (topic gallery) + one page per sim
+    content/       topics.ts — the 11 topic notes pages
+    pages/         Home (topic gallery) + topic detail + one page per sim
 ```
+
+Stages (arrows, trails, free-body diagrams) are inline SVG inside each page
+component; graphs use the canvas GraphPanel. The scaffold left `src/render/`
+empty and unused.
 
 **Why the separation:** the engine never imports React, so it can be unit-tested
 against closed-form physics. Every number shown in class is traceable to a
@@ -102,7 +108,8 @@ textbook formula.
 ## 6. Design System
 
 - Off-white background, soft-shadow rounded cards, generous spacing.
-- Typography: Inter for UI + a math-friendly display font for formulas.
+- Typography: Archivo (UI/prose) · STIX Two Text (definitions & formulas) ·
+  JetBrains Mono (numbers/instruments: readouts, ticks, formula numbers).
 - Accent: sky-blue → violet gradient; high contrast so it stays readable on classroom projectors.
 - Home page: topic gallery with animated preview cards.
 - One consistent sim layout everywhere: canvas stage (left) · controls (right) · graphs & formula bar (bottom) — muscle memory across all sims.
@@ -172,11 +179,11 @@ See `.kiwi/Tasks.py` for the task tree with IDs. Summary:
   for all numbers/readouts/ticks; Archivo stays for prose, STIX Two Text
   for definitions/formulas (user decision 2026-10-27).
 
-**Next:**
-- Phase 2 (conceptual chain, user decision): circular motion → torque →
+**Next (pick up here):**
+- **P2-3 Torque** is the immediate next lab. Phase 2 order locked (user
+  decision, 2026-10-27): conceptual chain — circular ✓ → **torque** →
   rotational motion → work-energy-power → momentum & collisions →
-  oscillations. Then Phase 3 (fluids, challenge mode, hosting polish).
-- Phase 2 order locked (user decision, 2026-10-27): **conceptual chain** —
-  circular → torque → rotational → work-energy → momentum → oscillations.
-- Challenge mode stays in Phase 3 (user decision, 2026-10-27): content
-  before games.
+  oscillations.
+- Then Phase 3: fluids (buoyancy, Bernoulli, continuity), gamified
+  challenge mode (content before games — user decision), deployment
+  polish.

@@ -17,8 +17,8 @@ momentum → oscillations).
 - **React 19 + Vite 8 + TypeScript 6** — 10+ sims share one UI kit; TS keeps
   the physics math honest; Vite gives instant dev loop + static build.
 - **oxlint** for linting — 0-warning policy.
-- **Vitest** — 73 physics tests in 8 files (engine closed-form tests + sim
-  behaviour tests).
+- **Vitest** — 115 tests in 11 files (engine closed-form, sim behaviour,
+  UI axis-math guards).
 - **Vercel** — auto-deploys every push to `master`.
 - Fonts via Fontsource (self-hosted, offline-safe): Archivo (interface),
   STIX Two Text (definitions/formulas), **JetBrains Mono** (instrument font:
@@ -36,7 +36,7 @@ physics-lab/
     App.tsx               HashRouter + top bar toggles: Projector + Dark theme.
                          Persists to localStorage (`physicslab_ui_projector`, `physicslab_ui_theme`).
                          Default for first-time visitors: Dark; Projector mode forces Light.
-                         Routes: / /playground /topic/:id /sim/{projectile,kinematics,friction}
+                         Routes: / /playground /topic/:id /sim/{projectile,kinematics,friction,pulley,circular}
     index.css            fontsource imports + theme/tokens.css + theme/global.css
     engine/               PURE physics: no React, no canvas, no DOM imports allowed
       vec2.ts               2D vector algebra (immutable Vec2)
@@ -73,7 +73,7 @@ physics-lab/
     Tasks.py             task tree (roadmap)
     Completed.py         completed task IDs
     decisions.md         per-subtask build decisions + validation evidence
-    click-test.mjs       17 real-browser interaction checks (see below)
+    click-test.mjs       29 real-browser interaction checks (see below)
     screenshots/         verified-state screenshots
 ```
 
@@ -136,7 +136,7 @@ physics-lab/
   on hover/press.
 - **Interaction tests:** assert on readouts that actually exist in the UI
   state under test (e.g. friction's status chip is horizontal-mode-only);
-  the full 17-check suite takes ~45 s — pass an explicit `timeout_sec`.
+  the full 29-check suite outgrows the 30 s CLI default — pass an explicit `timeout_sec`.
 - Forgetting `timeout_sec` on long terminal commands — the CLI default
   timeout is ~30 s.
 - If `npm install` runs while the dev server is up, Vite re-optimises and
@@ -144,10 +144,14 @@ physics-lab/
 
 ## Verification tooling
 
-- `node .kiwi/click-test.mjs` — puppeteer-core driving system Chrome: 17
+- `node .kiwi/click-test.mjs` — puppeteer-core driving system Chrome: 29
   checks across projectile (Start/Pause/landing R = ideal), kinematics
   (braking car rests at exactly t = u/|a|), friction (stick → breakaway at
-  μs·N; incline rest/slide across the repose angle) and the playground —
+  μs·N; incline rest/slide across the repose angle), pulley (Atwood a =
+  1.96 m/s² and T = 23.52 N on screen; table-edge static hold then
+  breakaway), circular (UCM v/a_c/F_c readouts; loop √(gr) and √(5gr)
+  chips with contact loss below 7.00 m/s; banked perfectly-banked state
+  and friction-deficit chip) and the playground —
   plus console/page-error cleanliness on every page. Run it after any change
   to sim pages, SimShell or GraphPanel. Render-level screenshots cannot
   catch interaction bugs — this harness exists because a 1-ulp degenerate
@@ -159,5 +163,5 @@ physics-lab/
 - Repo: https://github.com/Coder1010ayush/physics-lab (public, `master` → origin)
 - Deploy: push to `master` (auto-builds, ~1 min) or `vercel deploy --prod --yes`.
 - Verify a deployment: `BASE_URL=https://physics-lab-topaz.vercel.app
-  node .kiwi/click-test.mjs` (17 checks against production).
+  node .kiwi/click-test.mjs` (29 checks against production).
 - Static build, no backend/env/secret; should run offline from the laptop (verify once with Wi‑Fi off).

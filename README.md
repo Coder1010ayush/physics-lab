@@ -15,7 +15,9 @@ to the textbook**.
 | 2D Motion & Vectors | Projectile Lab — aim, air drag, Moon gravity, ideal-path ghost | [→](/#/topic/vectors-2d) |
 | Kinematics | 1D motion — car on a track, the three equations of motion updating live, turning-point detection | [→](/#/topic/kinematics) |
 | Friction | Push-ramp staircase force graph + incline with angle-of-repose | [→](/#/topic/friction) |
-| 8 more topics | Coming in Phase 2–3 | full notes pages live for all 11 |
+| Force & Pulley | Atwood machine + table-edge variant — live tension, free-body diagrams on every mass | [→](/#/topic/pulley) |
+| Circular Motion | Ball on a string, loop-the-loop with real contact-loss free fall, frictionless banked curve | [→](/#/topic/circular) |
+| 6 more topics | Coming in Phase 2–3 | full notes pages live for all 11 |
 
 Every library card opens a **topic page** with definition, numbered key
 concepts, textbook formulas and an explanation — ending with a button into
@@ -26,7 +28,7 @@ the simulation.
 - **React 19 + Vite 8 + TypeScript 6** — one shared UI kit behind every sim.
 - **Custom physics engine** (`src/engine/`) — pure, deterministic,
   unit-tested against closed-form textbook formulas (no physics libraries).
-- **Vitest** — 73 tests proving the physics math.
+- **Vitest** — 115 tests proving the physics math.
 - **oxlint** — linting, 0-warning policy.
 - **Vercel** — deployment from `master` (auto-deploy on every push).
 - Fonts (self-hosted via Fontsource, no CDN): **Archivo** (interface),
@@ -52,8 +54,8 @@ Node.js 18+ required (built with Node v22).
 | `npm run build` | Type-check (`tsc -b`) + production build to `dist/` — must pass clean |
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | oxlint — must report 0 warnings, 0 errors |
-| `npm test` | Vitest suite — 73 physics tests, all must pass |
-| `node .kiwi/click-test.mjs` | Real-browser interaction tests (17 checks; needs the dev server on :5173) |
+| `npm test` | Vitest suite — 115 physics tests, all must pass |
+| `node .kiwi/click-test.mjs` | Real-browser interaction tests (29 checks; needs the dev server on :5173) |
 
 ## How the physics stays honest
 
@@ -66,7 +68,8 @@ Three layers, all required before any sim is marked done:
 3. **Real-browser interaction tests** — `.kiwi/click-test.mjs` actually clicks
    Start/Pause, drags sliders and asserts the physics response on screen
    (measured R equals ideal R; the braking car rests at exactly t = u/|a|;
-   the block breaks loose at μs·N). Run locally and against production:
+   the block breaks loose at μs·N; the Atwood machine shows a = 1.96 m/s²,
+   T = 23.52 N; the loop-the-loop loses contact below v₀ = √(5gr)). Run locally and against production:
    `BASE_URL=https://physics-lab-topaz.vercel.app node .kiwi/click-test.mjs`
 
 ## Conventions (short version — see `.kiwi/CODEBASE_SIMPLIFIED.md` for all)
